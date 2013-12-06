@@ -10,10 +10,10 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 	cType = cacheType(isFullyAssociative);
 	numberOfCachelines = cacheSize / cachelineSize;
 
-	cache = new cacheline[numberOfCachelines](cachelineSize);
-	
-	
-	
+	cache = new cacheline*[numberOfCachelines];
+	for (int i = 0; i < numberOfCachelines; i++)
+		cache[i]=new cacheline(cachelineSize);
+	// to acceess cache location of i we have to say *(cache[i])
 	
 	
 	cout << typestr[cType] << " Cache Simulator\n";
@@ -25,7 +25,12 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 	}
 }
 
-
+cacheSim::~cacheSim()
+{
+	for (int i = 0; i < numberOfCachelines; i++)
+		delete cache[i];
+	delete[]cache;
+}
 unsigned int cacheSim::memGenSeq()
 {
 	static unsigned int addr = 0;
