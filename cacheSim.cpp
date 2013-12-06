@@ -9,19 +9,23 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 	this->memorySize = memorySize;
 	cType = cacheType(isFullyAssociative);
 	numberOfCachelines = cacheSize / cachelineSize;
-
+	memorySize = 1024 * 1024;
 	cache = new cacheline*[numberOfCachelines];
 	for (int i = 0; i < numberOfCachelines; i++)
 		cache[i]=new cacheline(cachelineSize);
 	// to acceess cache location of i we have to say *(cache[i])
 	
-	
-	cout << typestr[cType] << " Cache Simulator\n";
-	for (int inst = 0; inst<100; inst++)
+	simulateCache[0] = cacheSimDM;
+	simulateCache[1] = cacheSimFA;
+	memGen[0] = memGenSeq;
+	memGen[1] = memGenRandom;
+	memGen[2] = memGenLoop1;
+	memGen[3] = memGenLoop2;
+	for (int inst = 0 ; inst< 400000 ; inst++)
 	{
-		unsigned int addr = memGenRandom();
-		condition r = cacheSimDM(addr);
-		cout << addr << " (" << condStr[r] << ")\n";
+		unsigned int addr = (this->*this->memGen[inst / 4])();
+		condition r = (this->*this->simulateCache[cType])(addr);
+	//	cout << addr << " (" << condStr[r] << ")\n";
 	}
 }
 
@@ -31,15 +35,16 @@ cacheSim::~cacheSim()
 		delete cache[i];
 	delete[]cache;
 }
+
 unsigned int cacheSim::memGenSeq()
 {
 	static unsigned int addr = 0;
-	return (addr++) % (1024 * 1024);
+	return (addr++) % (memorySize);
 }
 
 unsigned int cacheSim::memGenRandom()
 {
-	return rand() % (1024 * 1024);
+	return rand() % (memorySize);
 }
 
 unsigned int cacheSim::memGenLoop1()

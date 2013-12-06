@@ -23,6 +23,8 @@ public:
 	unsigned int memGenLoop2();
 	condition cacheSimDM(unsigned int);
 	condition cacheSimFA(unsigned int);
+	condition (cacheSim::*simulateCache[2])(unsigned int);		// Array of pointers to functions
+	unsigned int (cacheSim::*memGen[4])();
 private:
 	string condStr[2] = {"Miss","Hit"};
 	string typestr[2] = { "Direct Mapped", "Fully Associative" };
