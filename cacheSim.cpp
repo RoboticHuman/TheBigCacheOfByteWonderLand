@@ -9,12 +9,12 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 	this->memorySize = memorySize;
 	cType = cacheType(isFullyAssociative);
 	numberOfCachelines = cacheSize / cachelineSize;
-	memorySize = 1024 * 1024;
 	cache = new cacheline*[numberOfCachelines];
 	for (int i = 0; i < numberOfCachelines; i++)
 		cache[i]=new cacheline(cachelineSize);
 	// to acceess cache location of i we have to say *(cache[i])
-	
+	hitCounter = 0;
+
 	simulateCache[0] = cacheSimDM;
 	simulateCache[1] = cacheSimFA;
 	memGen[0] = memGenSeq;
@@ -25,8 +25,10 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 	{
 		unsigned int addr = (this->*this->memGen[inst / 4])();
 		condition r = (this->*this->simulateCache[cType])(addr);
+		hitCounter += r;
 	//	cout << addr << " (" << condStr[r] << ")\n";
 	}
+	hitRatio = double(hitCounter) / 400000.0;
 }
 
 cacheSim::~cacheSim()
@@ -78,4 +80,9 @@ condition cacheSim::cacheSimFA(unsigned int addr)
 
 	// The current implementation assumes there is no cache; so, every transaction is a miss
 	return MISS;
+}
+
+double cacheSim::getHitRatio()
+{
+	return hitRatio;
 }
