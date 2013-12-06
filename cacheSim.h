@@ -34,6 +34,8 @@ private:
 	condition cacheSimDM(unsigned int);
 	condition cacheSimFA(unsigned int);
 
+	void clearCache();
+
 	condition(cacheSim::*simulateCache[2])(unsigned int);		// Array of pointers to functions
 	unsigned int (cacheSim::*memGen[4])();
 };

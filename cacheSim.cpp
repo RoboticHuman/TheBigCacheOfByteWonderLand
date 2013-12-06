@@ -23,7 +23,9 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 	memGen[3] = memGenLoop2;
 	for (int inst = 0 ; inst< 400000 ; inst++)
 	{
-		unsigned int addr = (this->*this->memGen[inst / 4])();
+		if (inst % 100000 == 0)
+			clearCache();
+		unsigned int addr = (this->*this->memGen[inst / 100000])();
 		condition r = (this->*this->simulateCache[cType])(addr);
 		hitCounter += r;
 	//	cout << addr << " (" << condStr[r] << ")\n";
@@ -85,4 +87,12 @@ condition cacheSim::cacheSimFA(unsigned int addr)
 double cacheSim::getHitRatio()
 {
 	return hitRatio;
+}
+
+void cacheSim::clearCache()
+{
+	for (int i = 0; i < numberOfCachelines; i++)
+	{
+		cache[i]->valid = 0;
+	}
 }
