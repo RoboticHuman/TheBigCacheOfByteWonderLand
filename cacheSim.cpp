@@ -5,9 +5,14 @@
 
 using namespace std;
 
-cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFullyAssociative)
+cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFullyAssociative, int repmethod)
 {
 	srand(time(0));
+	condStr[0] = "Miss";
+	condStr[1] = "Hit";
+	typestr[0] = "Direct Mapped";
+	typestr[1] =  "Fully Associative";
+	repMethod = replacementMethod(repmethod);
 	this->cachelineSize = cachelineSize;
 	this->cacheSize = cacheSize;
 	this->memorySize = memorySize;
@@ -20,12 +25,12 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 	hitCounter = 0;
 	bFull = 0;
 
-	simulateCache[0] = cacheSimDM;
-	simulateCache[1] = cacheSimFA;
-	memGen[0] = memGenSeq;
-	memGen[1] = memGenRandom;
-	memGen[2] = memGenLoop1;
-	memGen[3] = memGenLoop2;
+	simulateCache[0] = &cacheSim::cacheSimDM;
+	simulateCache[1] = &cacheSim::cacheSimFA;
+	memGen[0] = &cacheSim::memGenSeq;
+	memGen[1] = &cacheSim::memGenRandom;
+	memGen[2] = &cacheSim::memGenLoop1;
+	memGen[3] = &cacheSim::memGenLoop2;
 	for (int inst = 0 ; inst< 400000 ; inst++)
 	{
 		if (inst % 100000 == 0)
@@ -34,7 +39,7 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 		condition r = (this->*this->simulateCache[cType])(addr);
 		hitCounter += r;
 		missCounter += (1 - r);
-	//	cout << addr << " (" << condStr[r] << ")\n";
+		cout << "0x" << hex << addr << " (" << condStr[r] << ")\n";
 	}
 	hitRatio = double(hitCounter) / 400000.0;
 }

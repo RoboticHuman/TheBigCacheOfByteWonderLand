@@ -11,15 +11,15 @@ enum replacementMethod { RANDOM , FIFO, LFU };
 class cacheSim
 {
 public:
-	cacheSim(int cachelineSize, int cacheSize, int memorySize , bool isFullyAssociative );
+	cacheSim(int cachelineSize, int cacheSize, int memorySize , bool isFullyAssociative , int repmethod );
 	~cacheSim();
 	double getHitRatio();
 	int getHits();
 	int getMisses();
 
 private:
-	string condStr[2] = {"Miss","Hit"};
-	string typestr[2] = {"Direct Mapped","Fully Associative"};
+	string condStr[2] ;
+	string typestr[2] ;
 	cacheline** cache;
 	int hitCounter;					// Counts the total number of hits
 	int missCounter;				// Counts the total number of misses
