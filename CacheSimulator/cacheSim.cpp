@@ -5,6 +5,8 @@
 
 using namespace std;
 
+int nextlocation = 0;
+
 cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFullyAssociative, int repmethod)
 {
 	srand(time(0));
@@ -31,17 +33,23 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 	memGen[1] = &cacheSim::memGenRandom;
 	memGen[2] = &cacheSim::memGenLoop1;
 	memGen[3] = &cacheSim::memGenLoop2;
-	for (int inst = 0 ; inst< 400000 ; inst++)
-	{
-		if (inst % 100000 == 0)
-			clearCache();
-		unsigned int addr = (this->*this->memGen[inst / 100000])();
-		condition r = (this->*this->simulateCache[cType])(addr);
-		hitCounter += r;
-		missCounter += (1 - r);
-		cout << "0x" << hex << addr << " (" << condStr[r] << ")\n";
-	}
-	hitRatio = double(hitCounter) / 400000.0;
+
+    run();
+}
+
+void cacheSim::run()
+{
+    for(int inst=0 ; inst<400000 ; inst++)
+    {
+        if (inst % 100000 == 0)
+            clearCache();
+        unsigned int addr = (this->*this->memGen[inst / 100000])();
+        condition r = (this->*this->simulateCache[cType])(addr);
+        hitCounter += r;
+        missCounter += (1 - r);
+        //cout << "0x" << hex << addr << " (" << condStr[r] << ")\n";
+        hitRatio = double(hitCounter) / 400000.0;
+    }
 }
 
 cacheSim::~cacheSim()
@@ -97,8 +105,7 @@ condition cacheSim::cacheSimDM(unsigned int addr)
 // Fully Associative Cache Simulator
 condition cacheSim::cacheSimFA(unsigned int addr)
 {
-	static int nextlocation = 0;
-	unsigned int tag, offset;
+    unsigned int tag, offset;
 	int bitsTotal = log2(memorySize);
 	int bitsOffset = log2(cachelineSize);
 	int bitsTag = bitsTotal - bitsOffset;
@@ -142,6 +149,7 @@ int cacheSim::replace()
 			}
 		return minIndex;
 	}
+    return 0;
 }
 
 double cacheSim::getHitRatio()
@@ -161,10 +169,12 @@ int cacheSim::getMisses()
 
 void cacheSim::clearCache()
 {
-	for (int i = 0; i < numberOfCachelines; i++)
-	{
-		cache[i]->valid = 0;
-	}
+    for (int i = 0; i < numberOfCachelines; i++)
+    {
+        cache[i]->valid = 0;
+    }
+    bFull = false;
+    nextlocation = 0;
 }
 
 int cacheSim::log2(int x)

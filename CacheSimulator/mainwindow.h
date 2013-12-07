@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QTableWidget>
+#include "cacheSim.h"
+#include <QString>
+#include "qcustomplot.h"
 namespace Ui
 {
     class MainWindow;
@@ -15,18 +18,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
-private slots:
-
-    void cellSelected(int nRow, int nCol);
-
+    QString hexadecimal(int);
 private:
     Ui::MainWindow *ui;
-    QTableWidget* m_pTableWidget;
 
-    QStringList m_TableHeader;
-
-
+    cacheSim* myCache;
 };
 
 #endif // MAINWINDOW_H
