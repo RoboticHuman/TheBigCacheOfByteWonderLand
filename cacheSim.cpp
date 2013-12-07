@@ -1,9 +1,13 @@
 #include <iostream>
+#include <cmath>
+#include <ctime>
 #include "cacheSim.h"
+
 using namespace std;
 
 cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFullyAssociative)
 {
+	srand(time(0));
 	this->cachelineSize = cachelineSize;
 	this->cacheSize = cacheSize;
 	this->memorySize = memorySize;
@@ -14,6 +18,7 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 		cache[i]=new cacheline(cachelineSize);
 	// to acceess cache location of i we have to say *(cache[i])
 	hitCounter = 0;
+	bFull = 0;
 
 	simulateCache[0] = cacheSimDM;
 	simulateCache[1] = cacheSimFA;
@@ -68,21 +73,70 @@ unsigned int cacheSim::memGenLoop2()
 // Direct Mapped Cache Simulator
 condition cacheSim::cacheSimDM(unsigned int addr)
 {
-	// This function accepts the memory address for the read and 
-	// returns whether it caused a cache miss or a cache hit
+	unsigned int tag, index, offset;
+	int bitsTotal = log2(memorySize);
+	int bitsOffset = log2(cachelineSize);
+	int bitsIndex = log2(numberOfCachelines);
+	int bitsTag = bitsTotal - (bitsOffset + bitsIndex);
 
-	// The current implementation assumes there is no cache; so, every transaction is a miss
+	addr = addr >> bitsOffset;												 // getting rid of the bits of the offset
+	index = addr << (32 - bitsIndex); 	index = index >> (32 - bitsIndex);	 // Extracting the index
+	tag = addr >> bitsIndex;												 // Extracting the tag
+	if (cache[index]->valid && tag == cache[index]->tag)
+		return HIT;
+	cache[index]->valid = 1;
+	cache[index]->tag = tag;
 	return MISS;
 }
 
 // Fully Associative Cache Simulator
 condition cacheSim::cacheSimFA(unsigned int addr)
 {
-	// This function accepts the memory address for the read and 
-	// returns whether it caused a cache miss or a cache hit
+	static int nextlocation = 0;
+	unsigned int tag, offset;
+	int bitsTotal = log2(memorySize);
+	int bitsOffset = log2(cachelineSize);
+	int bitsTag = bitsTotal - bitsOffset;
+	tag = addr >> bitsOffset;
 
-	// The current implementation assumes there is no cache; so, every transaction is a miss
+	for (int i = 0; i < numberOfCachelines; i++)
+	{
+		if (cache[i]->valid && tag == cache[i]->tag)
+		{
+			cache[i]->counter++;
+			return HIT;
+		}
+	}
+	cache[nextlocation]->valid = 1;
+	cache[nextlocation]->tag = tag;
+	cache[nextlocation++]->counter = 1;
+	if (nextlocation == numberOfCachelines)
+		bFull = true;
+	if (bFull)
+		nextlocation = replace();
 	return MISS;
+}
+
+int cacheSim::replace()
+{
+	switch (repMethod)
+	{
+	case RANDOM:
+		return rand() % numberOfCachelines;
+	case FIFO:
+		bFull = 0;
+		return 0;
+	case LFU:
+		int minimum = INT_MAX;
+		int minIndex = 0;
+		for (int i = 0; i < numberOfCachelines; i++)
+			if (cache[i]->counter < minimum)
+			{
+				minimum = cache[i]->counter;
+				minIndex = i;
+			}
+		return minIndex;
+	}
 }
 
 double cacheSim::getHitRatio()
@@ -106,4 +160,9 @@ void cacheSim::clearCache()
 	{
 		cache[i]->valid = 0;
 	}
+}
+
+int cacheSim::log2(int x)
+{
+	return ( int(log10(double(x))/log10(2.0)) );
 }

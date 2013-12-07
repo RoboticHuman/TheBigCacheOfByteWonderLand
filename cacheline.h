@@ -10,7 +10,9 @@ public:
 		size = cachelineSize;
 		valid = 0;
 		tag = 0;
+		counter = 0;
 	}
 	bool valid;
 	int tag;
+	int counter;
 };
