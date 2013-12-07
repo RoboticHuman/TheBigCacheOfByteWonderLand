@@ -28,6 +28,7 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 		unsigned int addr = (this->*this->memGen[inst / 100000])();
 		condition r = (this->*this->simulateCache[cType])(addr);
 		hitCounter += r;
+		missCounter += (1 - r);
 	//	cout << addr << " (" << condStr[r] << ")\n";
 	}
 	hitRatio = double(hitCounter) / 400000.0;
@@ -87,6 +88,16 @@ condition cacheSim::cacheSimFA(unsigned int addr)
 double cacheSim::getHitRatio()
 {
 	return hitRatio;
+}
+
+int cacheSim::getHits()
+{
+	return hitCounter;
+}
+
+int cacheSim::getMisses()
+{
+	return missCounter;
 }
 
 void cacheSim::clearCache()

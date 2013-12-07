@@ -13,12 +13,15 @@ public:
 	cacheSim(int cachelineSize, int cacheSize, int memorySize , bool isFullyAssociative );
 	~cacheSim();
 	double getHitRatio();
+	int getHits();
+	int getMisses();
 
 private:
 	string condStr[2] = {"Miss","Hit"};
 	string typestr[2] = {"Direct Mapped","Fully Associative"};
 	cacheline** cache;
 	int hitCounter;					// Counts the total number of hits
+	int missCounter;				// Counts the total number of misses
 	double hitRatio;				// The total number of hits per instruction 
 	int cachelineSize;				// The number of bytes per cache line
 	int cacheSize;					// The overall cache size in bytes
