@@ -7,6 +7,8 @@
 #include <QTableWidget>
 #include "qcustomplot.h"
 #include "graphing.h"
+#include <QAbstractSlider>
+#include <QScrollBar>
 namespace Ui
 {
     class MainWindow;
@@ -22,11 +24,15 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QString hexadecimal(int);
+    int cacheSize, memorySize, repmethod;
+    bool isFullyAssociative;
+    void Initialize_Sim();
 private:
     Ui::MainWindow *ui;
     Graphing* mygraph;
     cacheSim* myCache;
     QTableWidget* table1,*table2,*table3,*table4;
+    QScrollArea* scroll;
     struct hitdata
     {
         int hitC;

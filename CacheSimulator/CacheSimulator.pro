@@ -16,13 +16,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     cacheSim.cpp \
     qcustomplot.cpp \
-    graphing.cpp
+    graphing.cpp \
+    settings.cpp
 
 HEADERS  += mainwindow.h \
     cacheSim.h \
     cacheline.h \
     qcustomplot.h \
-    graphing.h
+    graphing.h \
+    settings.h
 
 FORMS    += mainwindow.ui \
-    graphing.ui
+    graphing.ui \
+    settings.ui

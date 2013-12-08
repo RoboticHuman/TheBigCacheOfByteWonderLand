@@ -4,6 +4,7 @@
 #include "cacheSim.h"
 #include <sstream>
 #include <string>
+#include <cstdlib>
 using namespace std;
 
 int nextlocation = 0;
@@ -29,6 +30,7 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 		cache[i]=new cacheline(cachelineSize);
 	// to acceess cache location of i we have to say *(cache[i])
 	hitCounter = 0;
+    missCounter=0;
 	bFull = 0;
 
 	simulateCache[0] = &cacheSim::cacheSimDM;
