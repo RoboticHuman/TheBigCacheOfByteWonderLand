@@ -9,6 +9,8 @@
 #include "graphing.h"
 #include <QAbstractSlider>
 #include <QScrollBar>
+#include "graphing.h"
+#include <QVector>
 namespace Ui
 {
     class MainWindow;
@@ -29,6 +31,8 @@ public:
     void Initialize_Sim();
 private:
     Ui::MainWindow *ui;
+    QVector<double> x;
+    QVector<double> y;
     Graphing* mygraph;
     cacheSim* myCache;
     QTableWidget* table1,*table2,*table3,*table4;
@@ -41,9 +45,9 @@ private:
     };
     hitdata myhits[4];
 
-
 private slots:
     void on_tabWidget_currentChanged(int index);
+    void on_pushButton_clicked();
 };
 
 #endif // MAINWINDOW_H

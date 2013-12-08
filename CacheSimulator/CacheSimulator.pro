@@ -17,14 +17,18 @@ SOURCES += main.cpp\
     cacheSim.cpp \
     qcustomplot.cpp \
     graphing.cpp \
-    settings.cpp
+    settings.cpp \
+    nightcharts.cpp \
+    mywidget.cpp
 
 HEADERS  += mainwindow.h \
     cacheSim.h \
     cacheline.h \
     qcustomplot.h \
     graphing.h \
-    settings.h
+    settings.h \
+    nightcharts.h \
+    mywidget.h
 
 FORMS    += mainwindow.ui \
     graphing.ui \

@@ -16,7 +16,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
+#include "mywidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -30,7 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::Initialize_Sim()
 {
-    QVector<double> x(4), y(4);
+    x.resize(4);
+    y.resize(4);
     QVector<int> hello;
      for (int i=0; i<4; ++i)
      {
@@ -200,7 +201,7 @@ void MainWindow::Initialize_Sim()
 
 MainWindow::~MainWindow()
 {
-    //delete mygraph;
+    delete mygraph;
     delete table1;
     delete table2;
     delete table3;
@@ -226,6 +227,7 @@ QString MainWindow::hexadecimal(int m)
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
+    //delete ui->PlotRegion;
     stringstream tstr[3];
     tstr[0]<<myhits[index].hitC;
     tstr[1]<<myhits[index].missC;
@@ -233,4 +235,11 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     ui->label_6->setText( QString::fromStdString(tstr[0].str()));
     ui->label_7->setText( QString::fromStdString(tstr[1].str()));
     ui->label_8->setText( QString::fromStdString(tstr[2].str()));
+    ui->PlotRegion->hits=myhits[index].hitR*100.0;
+    ui->PlotRegion->update();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    mygraph=new Graphing(x,y);
 }
