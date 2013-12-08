@@ -2,10 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QTableWidget>
 #include "cacheSim.h"
 #include <QString>
+#include <QTableWidget>
 #include "qcustomplot.h"
+#include "graphing.h"
 namespace Ui
 {
     class MainWindow;
@@ -21,8 +22,9 @@ public:
     QString hexadecimal(int);
 private:
     Ui::MainWindow *ui;
-
+    Graphing* mygraph;
     cacheSim* myCache;
+    QTableWidget* table1,*table2,*table3,*table4;
 };
 
 #endif // MAINWINDOW_H

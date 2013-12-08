@@ -15,11 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     cacheSim.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    graphing.cpp
 
 HEADERS  += mainwindow.h \
     cacheSim.h \
     cacheline.h \
-    qcustomplot.h
+    qcustomplot.h \
+    graphing.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    graphing.ui

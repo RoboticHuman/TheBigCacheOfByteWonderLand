@@ -3,6 +3,7 @@
 #include <iostream>
 #include "cacheline.h"
 #include <map>
+#include <fstream>
 using namespace std;
 
 enum condition { MISS, HIT };
@@ -17,7 +18,7 @@ public:
 	double getHitRatio();
 	int getHits();
 	int getMisses();
-
+    ofstream out;
     string condStr[2] ;
     string typestr[2] ;
     cacheline** cache;

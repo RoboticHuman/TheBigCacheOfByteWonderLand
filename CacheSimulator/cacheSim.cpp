@@ -2,7 +2,8 @@
 #include <cmath>
 #include <ctime>
 #include "cacheSim.h"
-
+#include <sstream>
+#include <string>
 using namespace std;
 
 int nextlocation = 0;
@@ -10,6 +11,9 @@ int nextlocation = 0;
 cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFullyAssociative, int repmethod)
 {
 	srand(time(0));
+    stringstream tempstr;
+    tempstr<<"data"<<cachelineSize<<".dtt";
+    out.open((tempstr.str()).c_str());
 	condStr[0] = "Miss";
 	condStr[1] = "Hit";
 	typestr[0] = "Direct Mapped";
@@ -47,7 +51,7 @@ void cacheSim::run()
         condition r = (this->*this->simulateCache[cType])(addr);
         hitCounter += r;
         missCounter += (1 - r);
-        //cout << "0x" << hex << addr << " (" << condStr[r] << ")\n";
+        out << "0x" << hex << addr << " " << condStr[r] << "\n";
         hitRatio = double(hitCounter) / 400000.0;
     }
 }
@@ -57,6 +61,7 @@ cacheSim::~cacheSim()
 	for (int i = 0; i < numberOfCachelines; i++)
 		delete cache[i];
 	delete[]cache;
+    out.close();
 }
 
 unsigned int cacheSim::memGenSeq()
