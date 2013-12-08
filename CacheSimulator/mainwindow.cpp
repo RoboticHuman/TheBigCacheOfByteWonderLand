@@ -16,6 +16,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow)
@@ -35,8 +36,9 @@ MainWindow::MainWindow(QWidget *parent)
       cacheSim q( int(x[i]) , cacheSize , memorySize , isFullyAssociative , repmethod);
       y[i] = q.getHitRatio();
       hello.push_back(q.numberOfCachelines);
-      //y[i]=x[i];
-      //cout<<y[i];
+      myhits[i].hitC=q.getHits();
+      myhits[i].missC=q.getMisses();
+      myhits[i].hitR=q.getHitRatio();
     }
     //     table1->addScrollBarWidget(ui->verticalScrollBar1,Qt::AlignRight);
         QStringList m_Table1Header;
@@ -187,6 +189,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     //ui->textEdit1->addScrollBarWidget(ui->verticalScrollBar1,right);
 
+
+
+
+        connect(this, SIGNAL(on_clicked()), this, SLOT(on_tabWidget_currentChanged(int)) );
+
+
+
+
     mygraph = new Graphing(x,y);
 
 
@@ -217,3 +227,14 @@ QString MainWindow::hexadecimal(int m)
     return qstr;
 }
 
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    stringstream tstr[3];
+    tstr[0]<<myhits[index].hitC;
+    tstr[1]<<myhits[index].missC;
+    tstr[2]<<myhits[index].hitR;
+    ui->label_6->setText( QString::fromStdString(tstr[0].str()));
+    ui->label_7->setText( QString::fromStdString(tstr[1].str()));
+    ui->label_8->setText( QString::fromStdString(tstr[2].str()));
+}

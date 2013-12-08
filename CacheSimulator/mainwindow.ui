@@ -22,21 +22,32 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>261</width>
+      <width>271</width>
       <height>421</height>
      </rect>
     </property>
-    <property name="currentIndex">
-     <number>3</number>
+    <property name="font">
+     <font>
+      <family>Verdana</family>
+      <pointsize>7</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
-    <widget class="QWidget" name="tab">
+    <property name="styleSheet">
+     <string notr="true">color: #004080;</string>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab_1">
      <attribute name="title">
       <string>8 Bytes</string>
      </attribute>
      <widget class="QScrollBar" name="verticalScrollBar1">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>250</x>
         <y>0</y>
         <width>16</width>
         <height>401</height>
@@ -51,7 +62,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>241</width>
+        <width>251</width>
         <height>401</height>
        </rect>
       </property>
@@ -66,7 +77,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>241</width>
+        <width>251</width>
         <height>401</height>
        </rect>
       </property>
@@ -74,7 +85,7 @@
      <widget class="QScrollBar" name="verticalScrollBar2">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>250</x>
         <y>0</y>
         <width>16</width>
         <height>401</height>
@@ -94,7 +105,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>241</width>
+        <width>251</width>
         <height>401</height>
        </rect>
       </property>
@@ -102,7 +113,7 @@
      <widget class="QScrollBar" name="verticalScrollBar3">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>250</x>
         <y>0</y>
         <width>16</width>
         <height>401</height>
@@ -122,7 +133,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>241</width>
+        <width>251</width>
         <height>401</height>
        </rect>
       </property>
@@ -130,7 +141,7 @@
      <widget class="QScrollBar" name="verticalScrollBar4">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>250</x>
         <y>0</y>
         <width>16</width>
         <height>401</height>
@@ -163,6 +174,192 @@
     <property name="text">
      <string>Cache Line Size Simulation</string>
     </property>
+   </widget>
+   <widget class="QWidget" name="PlotRegion" native="true">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>20</y>
+      <width>361</width>
+      <height>321</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>380</y>
+      <width>81</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Verdana</family>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(112, 146, 190);</string>
+    </property>
+    <property name="text">
+     <string>Graph</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>0</y>
+      <width>321</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Verdana</family>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(112, 146, 190);</string>
+    </property>
+    <property name="text">
+     <string>Results of the simulation of: 400,000 instructions</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>360</y>
+      <width>181</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <family>Verdana</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(112, 146, 190);</string>
+       </property>
+       <property name="text">
+        <string>Hit Count:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="font">
+        <font>
+         <family>Verdana</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(112, 146, 190);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>390</y>
+      <width>181</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="font">
+        <font>
+         <family>Verdana</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(112, 146, 190);</string>
+       </property>
+       <property name="text">
+        <string>Miss Count:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_7">
+       <property name="font">
+        <font>
+         <family>Verdana</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(112, 146, 190);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>420</y>
+      <width>181</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="font">
+        <font>
+         <family>Verdana</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(112, 146, 190);</string>
+       </property>
+       <property name="text">
+        <string>Hit Ratio:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="font">
+        <font>
+         <family>Verdana</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(112, 146, 190);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
