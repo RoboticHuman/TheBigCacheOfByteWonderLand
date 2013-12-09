@@ -9,8 +9,7 @@
 #include "graphing.h"
 #include <QAbstractSlider>
 #include <QScrollBar>
-#include "graphing.h"
-#include <QVector>
+class Settings;
 namespace Ui
 {
     class MainWindow;
@@ -23,16 +22,16 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0, Settings *set=0);
     ~MainWindow();
     QString hexadecimal(int);
     int cacheSize, memorySize, repmethod;
     bool isFullyAssociative;
     void Initialize_Sim();
+public slots:
+    void DoWork();
 private:
     Ui::MainWindow *ui;
-    QVector<double> x;
-    QVector<double> y;
     Graphing* mygraph;
     cacheSim* myCache;
     QTableWidget* table1,*table2,*table3,*table4;
@@ -47,7 +46,6 @@ private:
 
 private slots:
     void on_tabWidget_currentChanged(int index);
-    void on_pushButton_clicked();
 };
 
 #endif // MAINWINDOW_H

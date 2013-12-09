@@ -1,23 +1,28 @@
 #include "settings.h"
 #include "ui_settings.h"
-
+#include <thread>
+#include <windows.h>
+#include <QThread>
+#include "processing_window.h"
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Settings)
 {
     ui->setupUi(this);
-    connect(ui->pushButton,SIGNAL(pressed()),SLOT(hide()));
+    processing = new Processing_Window;
 }
 
 Settings::~Settings()
 {
     delete ui;
-    delete win;
+    //delete win;
 }
+
+
 
 void Settings::on_pushButton_pressed()
 {
-    win=new MainWindow();
+    win=new MainWindow(0,this);
     if(ui->comboBox->currentText()=="1 MB")
         win->memorySize=1024*1024;
     else if(ui->comboBox->currentText()=="2 MB")
@@ -45,6 +50,9 @@ void Settings::on_pushButton_pressed()
         win->repmethod=1;
     else if(ui->comboBox_4->currentText()=="Least Frequently Used")
         win->repmethod=2;
-    win->Initialize_Sim();
-    win->show();
+    this->hide();
+    processing->show();
+    QTimer::singleShot(2000,win,SLOT(DoWork()));
+    QTimer::singleShot(7000,processing,SLOT(hide()));
 }
+

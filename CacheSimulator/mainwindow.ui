@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>880</width>
-    <height>430</height>
+    <width>815</width>
+    <height>541</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
       <x>10</x>
       <y>30</y>
       <width>351</width>
-      <height>341</height>
+      <height>421</height>
      </rect>
     </property>
     <property name="font">
@@ -38,7 +38,7 @@
      <string notr="true">color: #004080;</string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_1">
      <attribute name="title">
@@ -50,20 +50,20 @@
         <x>330</x>
         <y>0</y>
         <width>16</width>
-        <height>321</height>
+        <height>401</height>
        </rect>
       </property>
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
      </widget>
-     <widget class="QTextBrowser" name="textBrowser">
+     <widget class="QWidget" name="widget1" native="true">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
         <width>331</width>
-        <height>321</height>
+        <height>401</height>
        </rect>
       </property>
      </widget>
@@ -78,7 +78,7 @@
         <x>0</x>
         <y>0</y>
         <width>331</width>
-        <height>321</height>
+        <height>401</height>
        </rect>
       </property>
      </widget>
@@ -88,7 +88,7 @@
         <x>330</x>
         <y>0</y>
         <width>16</width>
-        <height>321</height>
+        <height>401</height>
        </rect>
       </property>
       <property name="orientation">
@@ -106,7 +106,7 @@
         <x>0</x>
         <y>0</y>
         <width>331</width>
-        <height>321</height>
+        <height>401</height>
        </rect>
       </property>
      </widget>
@@ -116,7 +116,7 @@
         <x>330</x>
         <y>0</y>
         <width>16</width>
-        <height>321</height>
+        <height>401</height>
        </rect>
       </property>
       <property name="orientation">
@@ -134,7 +134,7 @@
         <x>0</x>
         <y>0</y>
         <width>331</width>
-        <height>321</height>
+        <height>401</height>
        </rect>
       </property>
      </widget>
@@ -144,7 +144,7 @@
         <x>330</x>
         <y>0</y>
         <width>16</width>
-        <height>321</height>
+        <height>401</height>
        </rect>
       </property>
       <property name="orientation">
@@ -175,13 +175,13 @@
      <string>Cache Line Size Simulation</string>
     </property>
    </widget>
-   <widget class="mywidget" name="PlotRegion" native="true">
+   <widget class="QWidget" name="PlotRegion" native="true">
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>60</y>
-      <width>441</width>
-      <height>211</height>
+      <y>20</y>
+      <width>361</width>
+      <height>321</height>
      </rect>
     </property>
    </widget>
@@ -189,7 +189,7 @@
     <property name="geometry">
      <rect>
       <x>690</x>
-      <y>310</y>
+      <y>380</y>
       <width>81</width>
       <height>41</height>
      </rect>
@@ -211,7 +211,7 @@
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>30</y>
+      <y>0</y>
       <width>371</width>
       <height>16</height>
      </rect>
@@ -233,7 +233,7 @@
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>290</y>
+      <y>360</y>
       <width>181</width>
       <height>20</height>
      </rect>
@@ -264,7 +264,7 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);</string>
+        <string notr="true">color: rgb(112, 146, 190);</string>
        </property>
        <property name="text">
         <string/>
@@ -277,7 +277,7 @@
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>320</y>
+      <y>390</y>
       <width>181</width>
       <height>20</height>
      </rect>
@@ -308,7 +308,7 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);</string>
+        <string notr="true">color: rgb(112, 146, 190);</string>
        </property>
        <property name="text">
         <string/>
@@ -321,7 +321,7 @@
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>350</y>
+      <y>420</y>
       <width>181</width>
       <height>20</height>
      </rect>
@@ -352,7 +352,7 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);</string>
+        <string notr="true">color: rgb(112, 146, 190);</string>
        </property>
        <property name="text">
         <string/>
@@ -367,8 +367,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>880</width>
-     <height>21</height>
+     <width>815</width>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -383,14 +383,6 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>mywidget</class>
-   <extends>QWidget</extends>
-   <header location="global">mywidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

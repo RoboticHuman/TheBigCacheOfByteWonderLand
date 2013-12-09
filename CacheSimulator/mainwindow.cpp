@@ -16,9 +16,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "mywidget.h"
+#include "settings.h"
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent,Settings* set)
     : QMainWindow(parent),
       ui(new Ui::MainWindow)
 {
@@ -26,12 +26,12 @@ MainWindow::MainWindow(QWidget *parent)
     //
     // Get the data
     //
+    //connect(set, SIGNAL(blablabla()), this, SLOT(DoWork()));
 }
 
 void MainWindow::Initialize_Sim()
 {
-    x.resize(4);
-    y.resize(4);
+    QVector<double> x(4), y(4);
     QVector<int> hello;
      for (int i=0; i<4; ++i)
      {
@@ -45,7 +45,7 @@ void MainWindow::Initialize_Sim()
      }
      //     table1->addScrollBarWidget(ui->verticalScrollBar1,Qt::AlignRight);
          QStringList m_Table1Header;
-         table1 = new QTableWidget(ui->textBrowser);
+         table1 = new QTableWidget(ui->widget1);
          table1->setRowCount(hello[0]);
          table1->setColumnCount(2);
          table1->verticalHeader()->setDefaultSectionSize( 15 );
@@ -175,7 +175,6 @@ void MainWindow::Initialize_Sim()
          stringstream tsstr4;
          tsstr4<<"data"<<x[3]<<".dtt";
          in.open((tsstr4.str()).c_str());
-         tstr;
          k=0;
          while(getline(in,tstr))
          {
@@ -201,7 +200,7 @@ void MainWindow::Initialize_Sim()
 
 MainWindow::~MainWindow()
 {
-    delete mygraph;
+    //delete mygraph;
     delete table1;
     delete table2;
     delete table3;
@@ -227,7 +226,6 @@ QString MainWindow::hexadecimal(int m)
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-    //delete ui->PlotRegion;
     stringstream tstr[3];
     tstr[0]<<myhits[index].hitC;
     tstr[1]<<myhits[index].missC;
@@ -235,11 +233,10 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     ui->label_6->setText( QString::fromStdString(tstr[0].str()));
     ui->label_7->setText( QString::fromStdString(tstr[1].str()));
     ui->label_8->setText( QString::fromStdString(tstr[2].str()));
-    ui->PlotRegion->hits=myhits[index].hitR*100.0;
-    ui->PlotRegion->update();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::DoWork()
 {
-    mygraph=new Graphing(x,y);
+    this->Initialize_Sim();
+    this->show();
 }

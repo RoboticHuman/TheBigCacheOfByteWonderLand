@@ -8,6 +8,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
+CONFIG += c++11
+
 TARGET = CacheSimulator
 TEMPLATE = app
 
@@ -18,8 +20,8 @@ SOURCES += main.cpp\
     qcustomplot.cpp \
     graphing.cpp \
     settings.cpp \
-    nightcharts.cpp \
-    mywidget.cpp
+    processing_window.cpp \
+    initialize.cpp
 
 HEADERS  += mainwindow.h \
     cacheSim.h \
@@ -27,9 +29,14 @@ HEADERS  += mainwindow.h \
     qcustomplot.h \
     graphing.h \
     settings.h \
-    nightcharts.h \
-    mywidget.h
+    processing_window.h \
+    initialize.h
 
 FORMS    += mainwindow.ui \
     graphing.ui \
-    settings.ui
+    settings.ui \
+    processing_window.ui \
+    initialize.ui
+
+RESOURCES += \
+    images.qrc
