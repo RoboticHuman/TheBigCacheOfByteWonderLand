@@ -18,7 +18,7 @@
 #include <sstream>
 #include "settings.h"
 #include "mywidget.h"
-
+#include <QScrollArea>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -46,9 +46,14 @@ void MainWindow::Initialize_Sim()
        myhits[i].missC=q.getMisses();
        myhits[i].hitR=q.getHitRatio();
      }
-     //     table1->addScrollBarWidget(ui->verticalScrollBar1,Qt::AlignRight);
+
+        widget1 = new QWidget;
+        widget2 = new QWidget;
+        widget3 = new QWidget;
+        widget4 = new QWidget;
+
          QStringList m_Table1Header;
-         table1 = new QTableWidget(ui->textBrowser);
+         table1 = new QTableWidget(widget1);
          table1->setRowCount(hello[0]);
          table1->setColumnCount(2);
          table1->verticalHeader()->setDefaultSectionSize( 15 );
@@ -85,7 +90,13 @@ void MainWindow::Initialize_Sim()
          in.close();
 
 
-         table2 = new QTableWidget(ui->widget2);
+         ui->scrollArea1->setGeometry(table1->geometry());
+           ui->scrollArea1->setWidget(table1); // MainWidget is the container widget i.e. the window itself
+           ui->scrollArea1->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+           //ui->scrollArea1->setWidgetResizable(true);
+
+
+         table2 = new QTableWidget(widget2);
          table2->setRowCount(hello[1]);
          table2->setColumnCount(2);
          table2->verticalHeader()->setDefaultSectionSize( 15 );
@@ -119,9 +130,11 @@ void MainWindow::Initialize_Sim()
          in.close();
 
 
+         ui->scrollArea2->setGeometry(table2->geometry());
+           ui->scrollArea2->setWidget(table2); // MainWidget is the container widget i.e. the window itself
+           ui->scrollArea2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
-
-         table3 = new QTableWidget(ui->widget3);
+         table3 = new QTableWidget(widget3);
          table3->setRowCount(hello[2]);
          table3->setColumnCount(2);
          table3->verticalHeader()->setDefaultSectionSize( 15 );
@@ -156,10 +169,12 @@ void MainWindow::Initialize_Sim()
          in.close();
 
 
+         ui->scrollArea3->setGeometry(table3->geometry());
+           ui->scrollArea3->setWidget(table3); // MainWidget is the container widget i.e. the window itself
+           ui->scrollArea3->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
 
-
-         table4 = new QTableWidget(ui->widget4);
+         table4 = new QTableWidget(widget4);
          table4->setRowCount(hello[3]);
          table4->setColumnCount(2);
          table4->verticalHeader()->setDefaultSectionSize( 15 );
@@ -192,13 +207,9 @@ void MainWindow::Initialize_Sim()
          }
          in.close();
 
-
-     //ui->textEdit1->addScrollBarWidget(ui->verticalScrollBar1,right);
-
-         //connect(this, SIGNAL(on_clicked()), this, SLOT(on_tabWidget_currentChanged(int)) );
-
-
-     //mygraph = new Graphing(x,y);
+         ui->scrollArea4->setGeometry(table4->geometry());
+           ui->scrollArea4->setWidget(table4); // MainWidget is the container widget i.e. the window itself
+           ui->scrollArea4->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 }
 
 MainWindow::~MainWindow()
@@ -208,6 +219,10 @@ MainWindow::~MainWindow()
     delete table2;
     delete table3;
     delete table4;
+    delete widget1;
+    delete widget2;
+    delete widget3;
+    delete widget4;
 }
 
 

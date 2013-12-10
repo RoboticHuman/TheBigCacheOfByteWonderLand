@@ -11,6 +11,7 @@
 #include <QScrollBar>
 #include "graphing.h"
 #include <QVector>
+#include <QWidget>
 class Settings;
 namespace Ui
 {
@@ -39,6 +40,8 @@ private:
     Graphing* mygraph;
     cacheSim* myCache;
     QTableWidget* table1,*table2,*table3,*table4;
+    QWidget *widget1,*widget2,*widget3,*widget4;
+    int dude;
     QScrollArea* scroll;
     struct hitdata
     {
