@@ -33,196 +33,194 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::Initialize_Sim()
 {
-    x.resize(4);
-    y.resize(4);
-    QVector<int> hello;
+    for(int i=0 ; i<4 ; i++)
+    {
+        x[i].resize(4);
+        y[i].resize(4);
+    }
+
+    displayCLS[0]="8 Bytes";
+    displayCLS[1]="16 Bytes";
+    displayCLS[2]="32 Bytes";
+    displayCLS[3]="64 Bytes";
+
+    displayType[0]="Random";
+    displayType[1]="Sequential";
+    displayType[2]="Small-range Loop";
+    displayType[3]="Wide-Range Loop";
+
      for (int i=0; i<4; ++i)
      {
-       x[i] = pow(2,i+3);
-       cacheSim q( int(x[i]) , cacheSize , memorySize , isFullyAssociative , repmethod);
-       y[i] = q.getHitRatio();
-       hello.push_back(q.numberOfCachelines);
-       myhits[i].hitC=q.getHits();
-       myhits[i].missC=q.getMisses();
-       myhits[i].hitR=q.getHitRatio();
+        for( int j=0 ; j<4 ; j++)
+            x[j][i] = pow(2,i+3);
+        cacheSim q( int(x[0][i]) , cacheSize , memorySize , isFullyAssociative , repmethod);
+       for( int j=0 ; j<4 ; j++)
+       {
+           myhits[i].hitC[j]=q.Hits[j];
+           myhits[i].missC[j]=100000 - q.Hits[j];
+           myhits[i].hitR[j]=q.Ratio[j];
+           y[j][i]=q.Ratio[j];
+       }
      }
 
-        widget1 = new QWidget;
-        widget2 = new QWidget;
-        widget3 = new QWidget;
-        widget4 = new QWidget;
-
+     for(int i=0 ; i<4 ; i++)
+         for( int j=0 ; j<4 ; j++)
+        {
+         widget[i][j] = new QWidget;
          QStringList m_Table1Header;
-         table1 = new QTableWidget(widget1);
-         table1->setRowCount(hello[0]);
-         table1->setColumnCount(2);
-         table1->verticalHeader()->setDefaultSectionSize( 15 );
-         table1->horizontalHeader()->setDefaultSectionSize( 180 );
+         table[i][j] = new QTableWidget(widget[i][j]);
+         table[i][j]->setRowCount(100000);
+         table[i][j]->setColumnCount(2);
+         table[i][j]->verticalHeader()->setDefaultSectionSize( 15 );
+         table[i][j]->horizontalHeader()->setDefaultSectionSize( 180 );
          m_Table1Header<<"Address"<<"State";
-         table1->setHorizontalHeaderLabels(m_Table1Header);
-         table1->verticalHeader()->setVisible(false);
-         table1->setEditTriggers(QAbstractItemView::NoEditTriggers);
-         table1->setSelectionBehavior(QAbstractItemView::SelectRows);
-         table1->setSelectionMode(QAbstractItemView::SingleSelection);
-         table1->setShowGrid(false);
-         table1->setStyleSheet("QTableView {selection-background-color: blue; background-color: #ffffff; color: #004080;}");
-         table1->setGeometry(QApplication::desktop()->screenGeometry());
-
+         table[i][j]->setHorizontalHeaderLabels(m_Table1Header);
+         table[i][j]->verticalHeader()->setVisible(false);
+         table[i][j]->setEditTriggers(QAbstractItemView::NoEditTriggers);
+         table[i][j]->setSelectionBehavior(QAbstractItemView::SelectRows);
+         table[i][j]->setSelectionMode(QAbstractItemView::SingleSelection);
+         table[i][j]->setShowGrid(false);
+         table[i][j]->setStyleSheet("QTableView {selection-background-color: blue; background-color: #ffffff; color: #004080;}");
+         table[i][j]->setGeometry(QApplication::desktop()->screenGeometry());
+    }
 
 
          ifstream in;
-         stringstream tsstr;
-         tsstr<<"data"<<x[0]<<".dtt";
-         in.open((tsstr.str()).c_str());
-         string tstr;
-         int k=0;
-         while(getline(in,tstr))
-         {
-             string s1=tstr.substr(0,tstr.find(" "));
-             string s2=tstr.substr(tstr.find(" ")+1,tstr.size());
-              QString fileline1 = QString::fromStdString(s1);
-              QString fileline2 = QString::fromStdString(s2);
+         stringstream* tsstr;
 
-                table1->setItem(k, 0, new QTableWidgetItem(fileline1));
-                table1->setItem(k, 1, new QTableWidgetItem(fileline2));
-                 k++;
+         tsstr= new stringstream;
+         *tsstr<<"data"<<x[0][0]<<".dtt";
+         in.open((tsstr->str()).c_str());
+         for(int j=0 ; j<4 ; j++)
+         {
+            for(int i=0 ; i<100000 ; i++)
+            {
+                string s1,s2;
+                in>> s1 >>s2;
+                QString fileline1 = QString::fromStdString(s1);
+                QString fileline2 = QString::fromStdString(s2);
+
+                table[0][j]->setItem(i, 0, new QTableWidgetItem(fileline1));
+                table[0][j]->setItem(i, 1, new QTableWidgetItem(fileline2));
+
+            }
          }
          in.close();
+         delete tsstr;
 
+         ui->scrollArea_1->setGeometry(table[0][0]->geometry());
+         ui->scrollArea_1->setWidget(table[0][0]);
+         ui->scrollArea_2->setGeometry(table[0][1]->geometry());
+         ui->scrollArea_2->setWidget(table[0][1]);
+         ui->scrollArea_3->setGeometry(table[0][2]->geometry());
+         ui->scrollArea_3->setWidget(table[0][2]);
+         ui->scrollArea_4->setGeometry(table[0][3]->geometry());
+         ui->scrollArea_4->setWidget(table[0][3]);
 
-         ui->scrollArea1->setGeometry(table1->geometry());
-           ui->scrollArea1->setWidget(table1); // MainWidget is the container widget i.e. the window itself
-           ui->scrollArea1->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-           //ui->scrollArea1->setWidgetResizable(true);
+        //******************************************************************************************
 
-
-         table2 = new QTableWidget(widget2);
-         table2->setRowCount(hello[1]);
-         table2->setColumnCount(2);
-         table2->verticalHeader()->setDefaultSectionSize( 15 );
-         table2->horizontalHeader()->setDefaultSectionSize( 180 );
-         table2->setHorizontalHeaderLabels(m_Table1Header);
-         table2->verticalHeader()->setVisible(false);
-         table2->setEditTriggers(QAbstractItemView::NoEditTriggers);
-         table2->setSelectionBehavior(QAbstractItemView::SelectRows);
-         table2->setSelectionMode(QAbstractItemView::SingleSelection);
-         table2->setShowGrid(false);
-         table2->setStyleSheet("QTableView {selection-background-color: blue; background-color: #ffffff; color: #004080;}");
-         table2->setGeometry(QApplication::desktop()->screenGeometry());
-
-
-
-         stringstream tsstr2;
-         tsstr2<<"data"<<x[1]<<".dtt";
-         in.open((tsstr2.str()).c_str());
-         k=0;
-         while(getline(in,tstr))
+         tsstr= new stringstream;
+         *tsstr<<"data"<<x[1][0]<<".dtt";
+         in.open((tsstr->str()).c_str());
+         for(int j=0 ; j<4 ; j++)
          {
-             string s1=tstr.substr(0,tstr.find(" "));
-             string s2=tstr.substr(tstr.find(" ")+1,tstr.size());
-              QString fileline1 = QString::fromStdString(s1);
-              QString fileline2 = QString::fromStdString(s2);
+             for(int i=0 ; i<100000 ; i++)
+             {
+                 string s1,s2;
+                 in>> s1 >>s2;
+                 QString fileline1 = QString::fromStdString(s1);
+                 QString fileline2 = QString::fromStdString(s2);
 
-                table2->setItem(k, 0, new QTableWidgetItem(fileline1));
-                table2->setItem(k, 1, new QTableWidgetItem(fileline2));
-                 k++;
+                 table[1][j]->setItem(i, 0, new QTableWidgetItem(fileline1));
+                 table[1][j]->setItem(i, 1, new QTableWidgetItem(fileline2));
+
+             }
          }
          in.close();
+         delete tsstr;
 
+         ui->scrollArea_5->setGeometry(table[1][0]->geometry());
+         ui->scrollArea_5->setWidget(table[1][0]);
+         ui->scrollArea_6->setGeometry(table[1][1]->geometry());
+         ui->scrollArea_6->setWidget(table[1][1]);
+         ui->scrollArea_7->setGeometry(table[1][2]->geometry());
+         ui->scrollArea_7->setWidget(table[1][2]);
+         ui->scrollArea_8->setGeometry(table[1][3]->geometry());
+         ui->scrollArea_8->setWidget(table[1][3]);
 
-         ui->scrollArea2->setGeometry(table2->geometry());
-           ui->scrollArea2->setWidget(table2); // MainWidget is the container widget i.e. the window itself
-           ui->scrollArea2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+         //******************************************************************************************
 
-         table3 = new QTableWidget(widget3);
-         table3->setRowCount(hello[2]);
-         table3->setColumnCount(2);
-         table3->verticalHeader()->setDefaultSectionSize( 15 );
-         table3->horizontalHeader()->setDefaultSectionSize( 180 );
-         table3->setHorizontalHeaderLabels(m_Table1Header);
-         table3->verticalHeader()->setVisible(false);
-         table3->setEditTriggers(QAbstractItemView::NoEditTriggers);
-         table3->setSelectionBehavior(QAbstractItemView::SelectRows);
-         table3->setSelectionMode(QAbstractItemView::SingleSelection);
-         table3->setShowGrid(false);
-         table3->setStyleSheet("QTableView {selection-background-color: blue; background-color: #ffffff; color: #004080;}");
-         table3->setGeometry(QApplication::desktop()->screenGeometry());
-
-
-
-         stringstream tsstr3;
-         tsstr3<<"data"<<x[2]<<".dtt";
-         in.open((tsstr3.str()).c_str());
-
-         k=0;
-         while(getline(in,tstr))
+         tsstr= new stringstream;
+         *tsstr<<"data"<<x[2][0]<<".dtt";
+         in.open((tsstr->str()).c_str());
+         for(int j=0 ; j<4 ; j++)
          {
-             string s1=tstr.substr(0,tstr.find(" "));
-             string s2=tstr.substr(tstr.find(" ")+1,tstr.size());
-              QString fileline1 = QString::fromStdString(s1);
-              QString fileline2 = QString::fromStdString(s2);
+             for(int i=0 ; i<100000 ; i++)
+             {
+                 string s1,s2;
+                 in>> s1 >>s2;
+                 QString fileline1 = QString::fromStdString(s1);
+                 QString fileline2 = QString::fromStdString(s2);
 
-                table3->setItem(k, 0, new QTableWidgetItem(fileline1));
-                table3->setItem(k, 1, new QTableWidgetItem(fileline2));
-                 k++;
+                 table[2][j]->setItem(i, 0, new QTableWidgetItem(fileline1));
+                 table[2][j]->setItem(i, 1, new QTableWidgetItem(fileline2));
+
+             }
          }
          in.close();
+         delete tsstr;
 
+         ui->scrollArea_9->setGeometry(table[2][0]->geometry());
+         ui->scrollArea_9->setWidget(table[2][0]);
+         ui->scrollArea_10->setGeometry(table[2][1]->geometry());
+         ui->scrollArea_10->setWidget(table[2][1]);
+         ui->scrollArea_11->setGeometry(table[2][2]->geometry());
+         ui->scrollArea_11->setWidget(table[2][2]);
+         ui->scrollArea_12->setGeometry(table[2][3]->geometry());
+         ui->scrollArea_12->setWidget(table[2][3]);
 
-         ui->scrollArea3->setGeometry(table3->geometry());
-           ui->scrollArea3->setWidget(table3); // MainWidget is the container widget i.e. the window itself
-           ui->scrollArea3->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+         //******************************************************************************************
 
-
-         table4 = new QTableWidget(widget4);
-         table4->setRowCount(hello[3]);
-         table4->setColumnCount(2);
-         table4->verticalHeader()->setDefaultSectionSize( 15 );
-         table4->horizontalHeader()->setDefaultSectionSize( 180 );
-         table4->setHorizontalHeaderLabels(m_Table1Header);
-         table4->verticalHeader()->setVisible(false);
-         table4->setEditTriggers(QAbstractItemView::NoEditTriggers);
-         table4->setSelectionBehavior(QAbstractItemView::SelectRows);
-         table4->setSelectionMode(QAbstractItemView::SingleSelection);
-         table4->setShowGrid(false);
-         table4->setStyleSheet("QTableView {selection-background-color: blue; background-color: #ffffff; color: #004080;}");
-         table4->setGeometry(QApplication::desktop()->screenGeometry());
-
-
-
-         stringstream tsstr4;
-         tsstr4<<"data"<<x[3]<<".dtt";
-         in.open((tsstr4.str()).c_str());
-         k=0;
-         while(getline(in,tstr))
+         tsstr= new stringstream;
+         *tsstr<<"data"<<x[3][0]<<".dtt";
+         in.open((tsstr->str()).c_str());
+         for(int j=0 ; j<4 ; j++)
          {
-             string s1=tstr.substr(0,tstr.find(" "));
-             string s2=tstr.substr(tstr.find(" ")+1,tstr.size());
-              QString fileline1 = QString::fromStdString(s1);
-              QString fileline2 = QString::fromStdString(s2);
+             for(int i=0 ; i<100000 ; i++)
+             {
+                 string s1,s2;
+                 in>> s1 >>s2;
+                 QString fileline1 = QString::fromStdString(s1);
+                 QString fileline2 = QString::fromStdString(s2);
 
-                table4->setItem(k, 0, new QTableWidgetItem(fileline1));
-                table4->setItem(k, 1, new QTableWidgetItem(fileline2));
-                 k++;
+                 table[3][j]->setItem(i, 0, new QTableWidgetItem(fileline1));
+                 table[3][j]->setItem(i, 1, new QTableWidgetItem(fileline2));
+
+             }
          }
          in.close();
+         delete tsstr;
 
-         ui->scrollArea4->setGeometry(table4->geometry());
-           ui->scrollArea4->setWidget(table4); // MainWidget is the container widget i.e. the window itself
-           ui->scrollArea4->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+         ui->scrollArea_13->setGeometry(table[3][0]->geometry());
+         ui->scrollArea_13->setWidget(table[3][0]);
+         ui->scrollArea_14->setGeometry(table[3][1]->geometry());
+         ui->scrollArea_14->setWidget(table[3][1]);
+         ui->scrollArea_15->setGeometry(table[3][2]->geometry());
+         ui->scrollArea_15->setWidget(table[3][2]);
+         ui->scrollArea_16->setGeometry(table[3][3]->geometry());
+         ui->scrollArea_16->setWidget(table[3][3]);
+
 }
 
 MainWindow::~MainWindow()
 {
     delete mygraph;
-    delete table1;
-    delete table2;
-    delete table3;
-    delete table4;
-    delete widget1;
-    delete widget2;
-    delete widget3;
-    delete widget4;
+    for(int i=0 ; i<4 ; i++)
+        for(int j=0 ; j<4 ; j++)
+        {
+            delete widget[i][j];
+            delete table[i][j];
+        }
 }
 
 
@@ -242,16 +240,63 @@ QString MainWindow::hexadecimal(int m)
 }
 
 
-void MainWindow::on_tabWidget_currentChanged(int index)
+void MainWindow::on_tabWidget1_currentChanged(int j)
 {
     stringstream tstr[3];
-    tstr[0]<<myhits[index].hitC;
-    tstr[1]<<myhits[index].missC;
-    tstr[2]<<myhits[index].hitR;
+    tstr[0]<<myhits[0].hitC[j];
+    tstr[1]<<myhits[0].missC[j];
+    tstr[2]<<myhits[0].hitR[j];
     ui->label_6->setText( QString::fromStdString(tstr[0].str()));
     ui->label_7->setText( QString::fromStdString(tstr[1].str()));
     ui->label_8->setText( QString::fromStdString(tstr[2].str()));
-    ui->PlotRegion->hits=myhits[index].hitR*100.0;
+    ui->label_10->setText(displayCLS[0]);
+    ui->label_12->setText(displayType[j]);
+    ui->PlotRegion->hits=myhits[0].hitR[j]*100.0;
+    ui->PlotRegion->update();
+}
+
+void MainWindow::on_tabWidget2_currentChanged(int j)
+{
+    stringstream tstr[3];
+    tstr[0]<<myhits[1].hitC[j];
+    tstr[1]<<myhits[1].missC[j];
+    tstr[2]<<myhits[1].hitR[j];
+    ui->label_6->setText( QString::fromStdString(tstr[0].str()));
+    ui->label_7->setText( QString::fromStdString(tstr[1].str()));
+    ui->label_8->setText( QString::fromStdString(tstr[2].str()));
+    ui->label_10->setText(displayCLS[1]);
+    ui->label_12->setText(displayType[j]);
+    ui->PlotRegion->hits=myhits[1].hitR[j]*100.0;
+    ui->PlotRegion->update();
+}
+
+void MainWindow::on_tabWidget3_currentChanged(int j)
+{
+    stringstream tstr[3];
+    tstr[0]<<myhits[2].hitC[j];
+    tstr[1]<<myhits[2].missC[j];
+    tstr[2]<<myhits[2].hitR[j];
+    ui->label_6->setText( QString::fromStdString(tstr[0].str()));
+    ui->label_7->setText( QString::fromStdString(tstr[1].str()));
+    ui->label_8->setText( QString::fromStdString(tstr[2].str()));
+    ui->label_10->setText(displayCLS[2]);
+    ui->label_12->setText(displayType[j]);
+    ui->PlotRegion->hits=myhits[2].hitR[j]*100.0;
+    ui->PlotRegion->update();
+}
+
+void MainWindow::on_tabWidget4_currentChanged(int j)
+{
+    stringstream tstr[3];
+    tstr[0]<<myhits[3].hitC[j];
+    tstr[1]<<myhits[3].missC[j];
+    tstr[2]<<myhits[3].hitR[j];
+    ui->label_6->setText( QString::fromStdString(tstr[0].str()));
+    ui->label_7->setText( QString::fromStdString(tstr[1].str()));
+    ui->label_8->setText( QString::fromStdString(tstr[2].str()));
+    ui->label_10->setText(displayCLS[3]);
+    ui->label_12->setText(displayType[j]);
+    ui->PlotRegion->hits=myhits[3].hitR[j]*100.0;
     ui->PlotRegion->update();
 }
 

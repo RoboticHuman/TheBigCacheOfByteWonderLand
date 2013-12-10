@@ -14,8 +14,10 @@ class cacheSim
 public:
 	cacheSim(int cachelineSize, int cacheSize, int memorySize , bool isFullyAssociative , int repmethod );
 	~cacheSim();
-    void run();
+    void run(int inst);
 	double getHitRatio();
+    int Hits[4];
+    double Ratio[4];
 	int getHits();
 	int getMisses();
     ofstream out;

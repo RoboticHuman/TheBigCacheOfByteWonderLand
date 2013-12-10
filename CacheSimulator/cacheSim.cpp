@@ -33,6 +33,9 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
     missCounter=0;
 	bFull = 0;
 
+    for(int i=0 ; i<4 ; i++)
+        Hits[i]=0;
+
 	simulateCache[0] = &cacheSim::cacheSimDM;
 	simulateCache[1] = &cacheSim::cacheSimFA;
 	memGen[0] = &cacheSim::memGenSeq;
@@ -40,17 +43,23 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 	memGen[2] = &cacheSim::memGenLoop1;
 	memGen[3] = &cacheSim::memGenLoop2;
 
-    run();
+    for(int inst=0 ; inst<400000 ; inst++)
+    {
+        run(inst);
+    }
+    for(int i=0 ; i<4 ; i++)
+        Ratio[i]=double(Hits[i])/100000.0;
 }
 
-void cacheSim::run()
+void cacheSim::run(int inst)
 {
-    for(int inst=0 ; inst<400000 ; inst++)
+    if(inst<400000)
     {
         if (inst % 100000 == 0)
             clearCache();
         unsigned int addr = (this->*this->memGen[inst / 100000])();
         condition r = (this->*this->simulateCache[cType])(addr);
+        Hits[inst/100000]+=r;
         hitCounter += r;
         missCounter += (1 - r);
         out << "0x" << hex << addr << " " << condStr[r] << "\n";

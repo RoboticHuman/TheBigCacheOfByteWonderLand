@@ -35,24 +35,28 @@ public slots:
     void DoWork();
 private:
     Ui::MainWindow *ui;
-    QVector<double> x;
-    QVector<double> y;
+    QVector<double> x[4];
+    QVector<double> y[4];
     Graphing* mygraph;
     cacheSim* myCache;
-    QTableWidget* table1,*table2,*table3,*table4;
-    QWidget *widget1,*widget2,*widget3,*widget4;
-    int dude;
+    QTableWidget* table[4][4];
+    QWidget *widget[4][4];
     QScrollArea* scroll;
+    QString displayCLS[4];
+    QString displayType[4];
     struct hitdata
     {
-        int hitC;
-        int missC;
-        double hitR;
+        int hitC[4];
+        int missC[4];
+        double hitR[4];
     };
     hitdata myhits[4];
 
 private slots:
-    void on_tabWidget_currentChanged(int index);
+    void on_tabWidget1_currentChanged(int index);
+    void on_tabWidget2_currentChanged(int index);
+    void on_tabWidget3_currentChanged(int index);
+    void on_tabWidget4_currentChanged(int index);
     void on_pushButton_clicked();
 };
 
