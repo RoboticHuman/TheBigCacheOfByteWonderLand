@@ -22,7 +22,7 @@ Settings::~Settings()
 
 void Settings::on_pushButton_pressed()
 {
-    win=new MainWindow(0,this);
+    win=new MainWindow();
     if(ui->comboBox->currentText()=="1 MB")
         win->memorySize=1024*1024;
     else if(ui->comboBox->currentText()=="2 MB")

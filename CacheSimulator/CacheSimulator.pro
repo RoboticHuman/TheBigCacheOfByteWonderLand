@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     graphing.cpp \
     settings.cpp \
     processing_window.cpp \
-    initialize.cpp
+    initialize.cpp \
+    nightcharts.cpp \
+    mywidget.cpp
 
 HEADERS  += mainwindow.h \
     cacheSim.h \
@@ -30,13 +32,16 @@ HEADERS  += mainwindow.h \
     graphing.h \
     settings.h \
     processing_window.h \
-    initialize.h
+    initialize.h \
+    nightcharts.h \
+    mywidget.h
 
 FORMS    += mainwindow.ui \
     graphing.ui \
     settings.ui \
     processing_window.ui \
-    initialize.ui
+    initialize.ui \
+    piepainter.ui
 
 RESOURCES += \
     images.qrc

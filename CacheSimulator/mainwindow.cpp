@@ -17,8 +17,10 @@
 #include <fstream>
 #include <sstream>
 #include "settings.h"
+#include "mywidget.h"
 
-MainWindow::MainWindow(QWidget *parent,Settings* set)
+
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow)
 {
@@ -31,7 +33,8 @@ MainWindow::MainWindow(QWidget *parent,Settings* set)
 
 void MainWindow::Initialize_Sim()
 {
-    QVector<double> x(4), y(4);
+    x.resize(4);
+    y.resize(4);
     QVector<int> hello;
      for (int i=0; i<4; ++i)
      {
@@ -45,7 +48,7 @@ void MainWindow::Initialize_Sim()
      }
      //     table1->addScrollBarWidget(ui->verticalScrollBar1,Qt::AlignRight);
          QStringList m_Table1Header;
-         table1 = new QTableWidget(ui->widget1);
+         table1 = new QTableWidget(ui->textBrowser);
          table1->setRowCount(hello[0]);
          table1->setColumnCount(2);
          table1->verticalHeader()->setDefaultSectionSize( 15 );
@@ -200,7 +203,7 @@ void MainWindow::Initialize_Sim()
 
 MainWindow::~MainWindow()
 {
-    //delete mygraph;
+    delete mygraph;
     delete table1;
     delete table2;
     delete table3;
@@ -233,10 +236,18 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     ui->label_6->setText( QString::fromStdString(tstr[0].str()));
     ui->label_7->setText( QString::fromStdString(tstr[1].str()));
     ui->label_8->setText( QString::fromStdString(tstr[2].str()));
+    ui->PlotRegion->hits=myhits[index].hitR*100.0;
+    ui->PlotRegion->update();
 }
 
 void MainWindow::DoWork()
 {
     this->Initialize_Sim();
     this->show();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    mygraph=new Graphing(x,y);
+    mygraph->show();
 }
