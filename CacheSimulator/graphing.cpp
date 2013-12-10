@@ -34,6 +34,17 @@ Graphing::~Graphing()
     delete ui;
 }
 
-// QString fileNames = QFileDialog::getSaveFileName(this, tr("Save File"),"/path/to/file/",tr("PDF Files (*.pdf)"));
-       //  getOpenFileNames(this, tr("Open File"),"/path/to/file/",tr("PDF Files (*.pdf)"));
-//   ui->customPlot->savePdf(fileNames);
+
+void Graphing::on_pushButton_clicked()
+{
+    QString fileNames = QFileDialog::getSaveFileName(this, tr("Save File"),"/path/to/file/",tr("JPEG Files (*.jpg)"));
+    //getOpenFileNames(this, tr("Open File"),"/path/to/file/",tr("PDF Files (*.jpg)"));
+    ui->customPlot->savePdf(fileNames);
+}
+
+void Graphing::on_pushButton_2_clicked()
+{
+    QString fileNames = QFileDialog::getSaveFileName(this, tr("Save File"),"/path/to/file/",tr("PDF Files (*.pdf)"));
+    //getOpenFileNames(this, tr("Open File"),"/path/to/file/",tr("PDF Files (*.pdf)"));
+    ui->customPlot->savePdf(fileNames);
+}

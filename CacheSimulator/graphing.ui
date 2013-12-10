@@ -43,6 +43,32 @@ color: rgb(255, 255, 255);</string>
     <string>A graph of the results:</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>210</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Export as JPEG</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>280</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Export as PDF</string>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>

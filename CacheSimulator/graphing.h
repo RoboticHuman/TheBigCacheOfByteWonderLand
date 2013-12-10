@@ -17,6 +17,11 @@ public:
     explicit Graphing( QVector<double> &, QVector<double> &, QWidget *parent = 0);
     ~Graphing();
 
+private slots:
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
 private:
     Ui::Graphing *ui;
 };
