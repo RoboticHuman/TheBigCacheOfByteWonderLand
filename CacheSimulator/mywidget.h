@@ -7,7 +7,7 @@ class mywidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit mywidget(double hits, QWidget *parent = 0);
+    explicit mywidget(double hits = 0, QWidget *parent = 0);
      void paintEvent(QPaintEvent* );
      double hits;
 signals:

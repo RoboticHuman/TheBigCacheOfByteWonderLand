@@ -16,7 +16,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "settings.h"
 #include "mywidget.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -26,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     //
     // Get the data
     //
+    //connect(set, SIGNAL(blablabla()), this, SLOT(DoWork()));
 }
 
 void MainWindow::Initialize_Sim()
@@ -175,7 +178,6 @@ void MainWindow::Initialize_Sim()
          stringstream tsstr4;
          tsstr4<<"data"<<x[3]<<".dtt";
          in.open((tsstr4.str()).c_str());
-         tstr;
          k=0;
          while(getline(in,tstr))
          {
@@ -227,7 +229,6 @@ QString MainWindow::hexadecimal(int m)
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-    //delete ui->PlotRegion;
     stringstream tstr[3];
     tstr[0]<<myhits[index].hitC;
     tstr[1]<<myhits[index].missC;
@@ -239,7 +240,14 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     ui->PlotRegion->update();
 }
 
+void MainWindow::DoWork()
+{
+    this->Initialize_Sim();
+    this->show();
+}
+
 void MainWindow::on_pushButton_clicked()
 {
     mygraph=new Graphing(x,y);
+    mygraph->show();
 }

@@ -11,6 +11,7 @@
 #include <QScrollBar>
 #include "graphing.h"
 #include <QVector>
+class Settings;
 namespace Ui
 {
     class MainWindow;
@@ -29,6 +30,8 @@ public:
     int cacheSize, memorySize, repmethod;
     bool isFullyAssociative;
     void Initialize_Sim();
+public slots:
+    void DoWork();
 private:
     Ui::MainWindow *ui;
     QVector<double> x;

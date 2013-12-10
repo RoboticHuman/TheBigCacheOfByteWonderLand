@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>880</width>
-    <height>430</height>
+    <width>882</width>
+    <height>543</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
      <string notr="true">color: #004080;</string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab_1">
      <attribute name="title">
@@ -173,16 +173,6 @@
     </property>
     <property name="text">
      <string>Cache Line Size Simulation</string>
-    </property>
-   </widget>
-   <widget class="mywidget" name="PlotRegion" native="true">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>60</y>
-      <width>441</width>
-      <height>211</height>
-     </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
@@ -361,14 +351,24 @@
      </item>
     </layout>
    </widget>
+   <widget class="mywidget" name="PlotRegion" native="true">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>60</y>
+      <width>441</width>
+      <height>211</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>880</width>
-     <height>21</height>
+     <width>882</width>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -387,7 +387,7 @@
   <customwidget>
    <class>mywidget</class>
    <extends>QWidget</extends>
-   <header location="global">mywidget.h</header>
+   <header>mywidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
