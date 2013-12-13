@@ -46,7 +46,7 @@ void MainWindow::Initialize_Sim()
 
     displayType[0]="Random";
     displayType[1]="Sequential";
-    displayType[2]="Small-range Loop";
+    displayType[2]="Small-Range Loop";
     displayType[3]="Wide-Range Loop";
 
      for (int i=0; i<4; ++i)
@@ -108,14 +108,7 @@ void MainWindow::Initialize_Sim()
          in.close();
          delete tsstr;
 
-         ui->scrollArea_1->setGeometry(table[0][0]->geometry());
-         ui->scrollArea_1->setWidget(table[0][0]);
-         ui->scrollArea_2->setGeometry(table[0][1]->geometry());
-         ui->scrollArea_2->setWidget(table[0][1]);
-         ui->scrollArea_3->setGeometry(table[0][2]->geometry());
-         ui->scrollArea_3->setWidget(table[0][2]);
-         ui->scrollArea_4->setGeometry(table[0][3]->geometry());
-         ui->scrollArea_4->setWidget(table[0][3]);
+
 
         //******************************************************************************************
 
@@ -139,14 +132,7 @@ void MainWindow::Initialize_Sim()
          in.close();
          delete tsstr;
 
-         ui->scrollArea_5->setGeometry(table[1][0]->geometry());
-         ui->scrollArea_5->setWidget(table[1][0]);
-         ui->scrollArea_6->setGeometry(table[1][1]->geometry());
-         ui->scrollArea_6->setWidget(table[1][1]);
-         ui->scrollArea_7->setGeometry(table[1][2]->geometry());
-         ui->scrollArea_7->setWidget(table[1][2]);
-         ui->scrollArea_8->setGeometry(table[1][3]->geometry());
-         ui->scrollArea_8->setWidget(table[1][3]);
+
 
          //******************************************************************************************
 
@@ -170,14 +156,6 @@ void MainWindow::Initialize_Sim()
          in.close();
          delete tsstr;
 
-         ui->scrollArea_9->setGeometry(table[2][0]->geometry());
-         ui->scrollArea_9->setWidget(table[2][0]);
-         ui->scrollArea_10->setGeometry(table[2][1]->geometry());
-         ui->scrollArea_10->setWidget(table[2][1]);
-         ui->scrollArea_11->setGeometry(table[2][2]->geometry());
-         ui->scrollArea_11->setWidget(table[2][2]);
-         ui->scrollArea_12->setGeometry(table[2][3]->geometry());
-         ui->scrollArea_12->setWidget(table[2][3]);
 
          //******************************************************************************************
 
@@ -201,6 +179,30 @@ void MainWindow::Initialize_Sim()
          in.close();
          delete tsstr;
 
+         ui->scrollArea_1->setGeometry(table[0][0]->geometry());
+         ui->scrollArea_1->setWidget(table[0][0]);
+         ui->scrollArea_2->setGeometry(table[0][1]->geometry());
+         ui->scrollArea_2->setWidget(table[0][1]);
+         ui->scrollArea_3->setGeometry(table[0][2]->geometry());
+         ui->scrollArea_3->setWidget(table[0][2]);
+         ui->scrollArea_4->setGeometry(table[0][3]->geometry());
+         ui->scrollArea_4->setWidget(table[0][3]);
+         ui->scrollArea_5->setGeometry(table[1][0]->geometry());
+         ui->scrollArea_5->setWidget(table[1][0]);
+         ui->scrollArea_6->setGeometry(table[1][1]->geometry());
+         ui->scrollArea_6->setWidget(table[1][1]);
+         ui->scrollArea_7->setGeometry(table[1][2]->geometry());
+         ui->scrollArea_7->setWidget(table[1][2]);
+         ui->scrollArea_8->setGeometry(table[1][3]->geometry());
+         ui->scrollArea_8->setWidget(table[1][3]);
+         ui->scrollArea_9->setGeometry(table[2][0]->geometry());
+         ui->scrollArea_9->setWidget(table[2][0]);
+         ui->scrollArea_10->setGeometry(table[2][1]->geometry());
+         ui->scrollArea_10->setWidget(table[2][1]);
+         ui->scrollArea_11->setGeometry(table[2][2]->geometry());
+         ui->scrollArea_11->setWidget(table[2][2]);
+         ui->scrollArea_12->setGeometry(table[2][3]->geometry());
+         ui->scrollArea_12->setWidget(table[2][3]);
          ui->scrollArea_13->setGeometry(table[3][0]->geometry());
          ui->scrollArea_13->setWidget(table[3][0]);
          ui->scrollArea_14->setGeometry(table[3][1]->geometry());
@@ -209,6 +211,19 @@ void MainWindow::Initialize_Sim()
          ui->scrollArea_15->setWidget(table[3][2]);
          ui->scrollArea_16->setGeometry(table[3][3]->geometry());
          ui->scrollArea_16->setWidget(table[3][3]);
+
+
+         stringstream tstr[3];
+         tstr[0]<<myhits[0].hitC[0];
+         tstr[1]<<myhits[0].missC[0];
+         tstr[2]<<myhits[0].hitR[0];
+         ui->label_6->setText( QString::fromStdString(tstr[0].str()));
+         ui->label_7->setText( QString::fromStdString(tstr[1].str()));
+         ui->label_8->setText( QString::fromStdString(tstr[2].str()));
+         ui->label_10->setText(displayCLS[0]);
+         ui->label_12->setText(displayType[0]);
+         ui->PlotRegion->hits=myhits[0].hitR[0]*100.0;
+         ui->PlotRegion->update();
 
 }
 
