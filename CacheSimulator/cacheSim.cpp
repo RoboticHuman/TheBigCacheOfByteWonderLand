@@ -38,8 +38,8 @@ cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFull
 
 	simulateCache[0] = &cacheSim::cacheSimDM;
 	simulateCache[1] = &cacheSim::cacheSimFA;
-	memGen[0] = &cacheSim::memGenSeq;
-	memGen[1] = &cacheSim::memGenRandom;
+    memGen[0] = &cacheSim::memGenRandom;
+    memGen[1] = &cacheSim::memGenSeq;
 	memGen[2] = &cacheSim::memGenLoop1;
 	memGen[3] = &cacheSim::memGenLoop2;
 
@@ -121,13 +121,15 @@ condition cacheSim::cacheSimDM(unsigned int addr)
 // Fully Associative Cache Simulator
 condition cacheSim::cacheSimFA(unsigned int addr)
 {
+    static int cntr = -1;
+    cntr++;
     unsigned int tag, offset;
 	int bitsTotal = log2(memorySize);
 	int bitsOffset = log2(cachelineSize);
 	int bitsTag = bitsTotal - bitsOffset;
 	tag = addr >> bitsOffset;
 
-	for (int i = 0; i < numberOfCachelines; i++)
+    for (int i = 0; i < numberOfCachelines && i<cntr; i++)
 	{
 		if (cache[i]->valid && tag == cache[i]->tag)
 		{
@@ -150,7 +152,7 @@ int cacheSim::replace()
 	switch (repMethod)
 	{
 	case RANDOM:
-		return rand() % numberOfCachelines;
+        return (rand() % numberOfCachelines);
 	case FIFO:
 		bFull = 0;
 		return 0;
