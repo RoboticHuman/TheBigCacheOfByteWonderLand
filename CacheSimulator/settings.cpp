@@ -72,7 +72,7 @@ void Settings::on_pushButton_pressed()
 void Settings::onDoneThread()
 {
     //processing->ApplyTextChange();
-    myMain = new MainWindow(win->x , win->y , win->myhits );
+    myMain = new MainWindow(win->x , win->y , win->myhits , win->isFullyAssociative  , win->repmethod);
     myMain->show();
     processing->hide();
 }

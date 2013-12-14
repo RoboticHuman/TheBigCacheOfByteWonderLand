@@ -33,7 +33,7 @@ private:
 	int hitCounter;					// Counts the total number of hits
 	int missCounter;				// Counts the total number of misses
 	double hitRatio;				// The total number of hits per instruction 
-
+    map<int,int>arrayIndex;
 	bool bFull;						// Used by the FA cache to determine whether the cache has already been completely filled
 	cacheType cType;				// DirectMapped or FullyAssociative
 	replacementMethod repMethod;

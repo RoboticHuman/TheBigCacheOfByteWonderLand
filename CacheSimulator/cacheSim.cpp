@@ -7,7 +7,7 @@
 #include <cstdlib>
 using namespace std;
 
-int nextlocation = 0;
+int nextlocation = -1;
 
 cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFullyAssociative, int repmethod)
 {
@@ -123,28 +123,41 @@ condition cacheSim::cacheSimFA(unsigned int addr)
 {
     static int cntr = -1;
     cntr++;
+    nextlocation++;
+    if (nextlocation == numberOfCachelines)
+        bFull = true;
+    if (bFull)
+        nextlocation = replace();
     unsigned int tag, offset;
-	int bitsTotal = log2(memorySize);
-	int bitsOffset = log2(cachelineSize);
-	int bitsTag = bitsTotal - bitsOffset;
-	tag = addr >> bitsOffset;
+    int bitsTotal = log2(memorySize);
+    int bitsOffset = log2(cachelineSize);
+    int bitsTag = bitsTotal - bitsOffset;
+    tag = addr >> bitsOffset;
 
-    for (int i = 0; i < numberOfCachelines && i<cntr; i++)
-	{
-		if (cache[i]->valid && tag == cache[i]->tag)
-		{
-			cache[i]->counter++;
-			return HIT;
-		}
-	}
-	cache[nextlocation]->valid = 1;
-	cache[nextlocation]->tag = tag;
-	cache[nextlocation++]->counter = 1;
-	if (nextlocation == numberOfCachelines)
-		bFull = true;
-	if (bFull)
-		nextlocation = replace();
-	return MISS;
+    /*for (int i = 0; i < numberOfCachelines && i<cntr; i++)
+    {
+        if (cache[i]->valid && tag == cache[i]->tag)
+        {
+            cache[i]->counter++;
+            nextlocation--;
+            return HIT;
+        }
+    }
+    */
+    if (arrayIndex.count(tag))
+    {
+        if(cache[arrayIndex[tag]]->tag==tag)
+        {
+            cache[arrayIndex[tag]]->counter++;
+            nextlocation--;
+            return HIT;
+        }
+    }
+    arrayIndex[tag] = nextlocation;
+    cache[nextlocation]->valid = 1;
+    cache[nextlocation]->tag = tag;
+    cache[nextlocation]->counter = 1;
+    return MISS;
 }
 
 int cacheSim::replace()

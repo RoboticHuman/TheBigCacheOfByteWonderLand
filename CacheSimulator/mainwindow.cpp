@@ -20,16 +20,22 @@
 #include "mywidget.h"
 #include <QScrollArea>
 
-MainWindow::MainWindow(QVector<double> x[4], QVector<double> y[4], hitdata myhits[4], QWidget *parent)
+MainWindow::MainWindow(QVector<double> x[4], QVector<double> y[4], hitdata myhits[4], bool cacheType
+, int lineReplacement, QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow)
 {
+    QString cacheT[2] = {"Direct Mapped Cache","Fully Associative Cache"};
+    QString lineR[3] = {"Random Replacement","FIFO Replacement","LFU Replacement"};
     ui->setupUi(this);
     //
     // Get the data
     //
     //connect(set, SIGNAL(blablabla()), this, SLOT(DoWork()));
 
+    ui->label_16->setText(cacheT[cacheType]);
+    if(cacheType)
+        ui->label_17->setText(lineR[lineReplacement]);
     for(int i=0 ; i<4 ; i++)
     {
         this->x[i].resize(4);

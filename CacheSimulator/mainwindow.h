@@ -26,7 +26,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QVector<double> x[4], QVector<double> y[4], hitdata myhits[4], QWidget *parent=NULL);
+    explicit MainWindow(QVector<double> x[4], QVector<double> y[4], hitdata myhits[4],
+    bool cacheType, int lineReplacement , QWidget *parent=NULL);
     ~MainWindow();
     QString hexadecimal(int);
     QTableWidget* table[4][4];
