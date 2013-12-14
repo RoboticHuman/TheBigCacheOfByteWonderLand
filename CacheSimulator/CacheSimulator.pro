@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     processing_window.cpp \
     initialize.cpp \
     nightcharts.cpp \
-    mywidget.cpp
+    mywidget.cpp \
+    processingthedata.cpp
 
 HEADERS  += mainwindow.h \
     cacheSim.h \
@@ -34,7 +35,9 @@ HEADERS  += mainwindow.h \
     processing_window.h \
     initialize.h \
     nightcharts.h \
-    mywidget.h
+    mywidget.h \
+    hitData.h \
+    processingthedata.h
 
 FORMS    += mainwindow.ui \
     graphing.ui \

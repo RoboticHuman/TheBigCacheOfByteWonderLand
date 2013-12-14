@@ -4,6 +4,13 @@
 #include <windows.h>
 #include <QThread>
 #include "processing_window.h"
+#include <QTableWidget>
+#include <QScrollArea>
+#include <QString>
+#include <QVector>
+#include <sstream>
+#include <string>
+using namespace std;
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Settings)
@@ -22,7 +29,7 @@ Settings::~Settings()
 
 void Settings::on_pushButton_pressed()
 {
-    win=new MainWindow();
+    win=new ProcessingTheData;
     if(ui->comboBox->currentText()=="1 MB")
         win->memorySize=1024*1024;
     else if(ui->comboBox->currentText()=="2 MB")
@@ -52,7 +59,21 @@ void Settings::on_pushButton_pressed()
         win->repmethod=2;
     this->hide();
     processing->show();
-    QTimer::singleShot(2000,win,SLOT(DoWork()));
-    QTimer::singleShot(7000,processing,SLOT(hide()));
+    //QTimer::singleShot(2000,win,SLOT(DoWork()));
+    //QTimer::singleShot(7000,processing,SLOT(hide()));
+
+    connect(win,SIGNAL(DoneThread()),this,SLOT(onDoneThread()));
+    //connect(this,SIGNAL(ChangeText()),processing,SLOT(ApplyTextChange()));
+    win->start();
+
+
+}
+
+void Settings::onDoneThread()
+{
+    //processing->ApplyTextChange();
+    myMain = new MainWindow(win->x , win->y , win->myhits );
+    myMain->show();
+    processing->hide();
 }
 

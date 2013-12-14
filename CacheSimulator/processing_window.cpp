@@ -17,4 +17,9 @@ Processing_Window::~Processing_Window()
     delete movie;
 }
 
+void Processing_Window::ApplyTextChange()
+{
+    ui->label_3->setText(QString("Preparing results"));
+}
+
 

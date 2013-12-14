@@ -20,7 +20,7 @@
 #include "mywidget.h"
 #include <QScrollArea>
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QVector<double> x[4], QVector<double> y[4], hitdata myhits[4], QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow)
 {
@@ -29,15 +29,22 @@ MainWindow::MainWindow(QWidget *parent)
     // Get the data
     //
     //connect(set, SIGNAL(blablabla()), this, SLOT(DoWork()));
-}
 
-void MainWindow::Initialize_Sim()
-{
     for(int i=0 ; i<4 ; i++)
     {
-        x[i].resize(4);
-        y[i].resize(4);
+        this->x[i].resize(4);
+        this->y[i].resize(4);
     }
+
+    for(int i=0 ; i<4 ; i++)
+        for(int j=0 ; j<4 ; j++)
+        {
+            this->myhits[i].hitC[j]=myhits[i].hitC[j];
+            this->myhits[i].missC[j]=myhits[i].missC[j];
+            this->myhits[i].hitR[j]=myhits[i].hitR[j];
+            this->x[j][i]=x[j][i];
+            this->y[j][i]=y[j][i];
+        }
 
     displayCLS[0]="8 Bytes";
     displayCLS[1]="16 Bytes";
@@ -49,50 +56,62 @@ void MainWindow::Initialize_Sim()
     displayType[2]="Small-Range Loop";
     displayType[3]="Wide-Range Loop";
 
-     for (int i=0; i<4; ++i)
-     {
+
+
+    for(int i=0 ; i<4 ; i++)
         for( int j=0 ; j<4 ; j++)
-            x[j][i] = pow(2,i+3);
-        cacheSim q( int(x[0][i]) , cacheSize , memorySize , isFullyAssociative , repmethod);
-       for( int j=0 ; j<4 ; j++)
        {
-           myhits[i].hitC[j]=q.Hits[j];
-           myhits[i].missC[j]=100000 - q.Hits[j];
-           myhits[i].hitR[j]=q.Ratio[j];
-           y[j][i]=q.Ratio[j];
-       }
-     }
+        widget[i][j] = new QWidget;
+        QStringList m_Table1Header;
+        table[i][j] = new QTableWidget(widget[i][j]);
+        table[i][j]->setRowCount(100000);
+        table[i][j]->setColumnCount(2);
+        table[i][j]->verticalHeader()->setDefaultSectionSize( 15 );
+        table[i][j]->horizontalHeader()->setDefaultSectionSize( 180 );
+        m_Table1Header<<"Address"<<"State";
+        table[i][j]->setHorizontalHeaderLabels(m_Table1Header);
+        table[i][j]->verticalHeader()->setVisible(false);
+        table[i][j]->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        table[i][j]->setSelectionBehavior(QAbstractItemView::SelectRows);
+        table[i][j]->setSelectionMode(QAbstractItemView::SingleSelection);
+        table[i][j]->setShowGrid(false);
+        table[i][j]->setStyleSheet("QTableView {selection-background-color: blue; background-color: #ffffff; color: #004080;}");
+        table[i][j]->setGeometry(QApplication::desktop()->screenGeometry());
+   }
 
-     for(int i=0 ; i<4 ; i++)
-         for( int j=0 ; j<4 ; j++)
+
+        ifstream in;
+        stringstream* tsstr;
+
+        tsstr= new stringstream;
+        *(tsstr)<<"data"<<x[0][0]<<".dtt";
+        in.open((tsstr->str()).c_str());
+        for(int j=0 ; j<4 ; j++)
         {
-         widget[i][j] = new QWidget;
-         QStringList m_Table1Header;
-         table[i][j] = new QTableWidget(widget[i][j]);
-         table[i][j]->setRowCount(100000);
-         table[i][j]->setColumnCount(2);
-         table[i][j]->verticalHeader()->setDefaultSectionSize( 15 );
-         table[i][j]->horizontalHeader()->setDefaultSectionSize( 180 );
-         m_Table1Header<<"Address"<<"State";
-         table[i][j]->setHorizontalHeaderLabels(m_Table1Header);
-         table[i][j]->verticalHeader()->setVisible(false);
-         table[i][j]->setEditTriggers(QAbstractItemView::NoEditTriggers);
-         table[i][j]->setSelectionBehavior(QAbstractItemView::SelectRows);
-         table[i][j]->setSelectionMode(QAbstractItemView::SingleSelection);
-         table[i][j]->setShowGrid(false);
-         table[i][j]->setStyleSheet("QTableView {selection-background-color: blue; background-color: #ffffff; color: #004080;}");
-         table[i][j]->setGeometry(QApplication::desktop()->screenGeometry());
-    }
+           for(int i=0 ; i<100000 ; i++)
+           {
+               string s1,s2;
+               in>> s1 >>s2;
+               QString fileline1 = QString::fromStdString(s1);
+               QString fileline2 = QString::fromStdString(s2);
+
+               table[0][j]->setItem(i, 0, new QTableWidgetItem(fileline1));
+               table[0][j]->setItem(i, 1, new QTableWidgetItem(fileline2));
+
+           }
+        }
+        in.close();
+        delete tsstr;
 
 
-         ifstream in;
-         stringstream* tsstr;
 
-         tsstr= new stringstream;
-         *tsstr<<"data"<<x[0][0]<<".dtt";
-         in.open((tsstr->str()).c_str());
-         for(int j=0 ; j<4 ; j++)
-         {
+       //******************************************************************************************
+
+        tsstr= new stringstream;
+        *tsstr<<"data"<<x[1][0]<<".dtt";
+        in.open((tsstr->str()).c_str());
+        for(int j=0 ; j<4 ; j++)
+        {
             for(int i=0 ; i<100000 ; i++)
             {
                 string s1,s2;
@@ -100,84 +119,65 @@ void MainWindow::Initialize_Sim()
                 QString fileline1 = QString::fromStdString(s1);
                 QString fileline2 = QString::fromStdString(s2);
 
-                table[0][j]->setItem(i, 0, new QTableWidgetItem(fileline1));
-                table[0][j]->setItem(i, 1, new QTableWidgetItem(fileline2));
+                table[1][j]->setItem(i, 0, new QTableWidgetItem(fileline1));
+                table[1][j]->setItem(i, 1, new QTableWidgetItem(fileline2));
 
             }
-         }
-         in.close();
-         delete tsstr;
+        }
+        in.close();
+        delete tsstr;
 
 
 
         //******************************************************************************************
 
-         tsstr= new stringstream;
-         *tsstr<<"data"<<x[1][0]<<".dtt";
-         in.open((tsstr->str()).c_str());
-         for(int j=0 ; j<4 ; j++)
-         {
-             for(int i=0 ; i<100000 ; i++)
-             {
-                 string s1,s2;
-                 in>> s1 >>s2;
-                 QString fileline1 = QString::fromStdString(s1);
-                 QString fileline2 = QString::fromStdString(s2);
+        tsstr= new stringstream;
+        *tsstr<<"data"<<x[2][0]<<".dtt";
+        in.open((tsstr->str()).c_str());
+        for(int j=0 ; j<4 ; j++)
+        {
+            for(int i=0 ; i<100000 ; i++)
+            {
+                string s1,s2;
+                in>> s1 >>s2;
+                QString fileline1 = QString::fromStdString(s1);
+                QString fileline2 = QString::fromStdString(s2);
 
-                 table[1][j]->setItem(i, 0, new QTableWidgetItem(fileline1));
-                 table[1][j]->setItem(i, 1, new QTableWidgetItem(fileline2));
+                table[2][j]->setItem(i, 0, new QTableWidgetItem(fileline1));
+                table[2][j]->setItem(i, 1, new QTableWidgetItem(fileline2));
 
-             }
-         }
-         in.close();
-         delete tsstr;
-
-
-
-         //******************************************************************************************
-
-         tsstr= new stringstream;
-         *tsstr<<"data"<<x[2][0]<<".dtt";
-         in.open((tsstr->str()).c_str());
-         for(int j=0 ; j<4 ; j++)
-         {
-             for(int i=0 ; i<100000 ; i++)
-             {
-                 string s1,s2;
-                 in>> s1 >>s2;
-                 QString fileline1 = QString::fromStdString(s1);
-                 QString fileline2 = QString::fromStdString(s2);
-
-                 table[2][j]->setItem(i, 0, new QTableWidgetItem(fileline1));
-                 table[2][j]->setItem(i, 1, new QTableWidgetItem(fileline2));
-
-             }
-         }
-         in.close();
-         delete tsstr;
+            }
+        }
+        in.close();
+        delete tsstr;
 
 
-         //******************************************************************************************
+        //******************************************************************************************
 
-         tsstr= new stringstream;
-         *tsstr<<"data"<<x[3][0]<<".dtt";
-         in.open((tsstr->str()).c_str());
-         for(int j=0 ; j<4 ; j++)
-         {
-             for(int i=0 ; i<100000 ; i++)
-             {
-                 string s1,s2;
-                 in>> s1 >>s2;
-                 QString fileline1 = QString::fromStdString(s1);
-                 QString fileline2 = QString::fromStdString(s2);
+        tsstr= new stringstream;
+        *tsstr<<"data"<<x[3][0]<<".dtt";
+        in.open((tsstr->str()).c_str());
+        for(int j=0 ; j<4 ; j++)
+        {
+            for(int i=0 ; i<100000 ; i++)
+            {
+                string s1,s2;
+                in>> s1 >>s2;
+                QString fileline1 = QString::fromStdString(s1);
+                QString fileline2 = QString::fromStdString(s2);
 
-                 table[3][j]->setItem(i, 0, new QTableWidgetItem(fileline1));
-                 table[3][j]->setItem(i, 1, new QTableWidgetItem(fileline2));
+                table[3][j]->setItem(i, 0, new QTableWidgetItem(fileline1));
+                table[3][j]->setItem(i, 1, new QTableWidgetItem(fileline2));
 
-             }
-         }
-         in.close();
-         delete tsstr;
+            }
+        }
+        in.close();
+        delete tsstr;
+
+
+
+
+
 
          ui->scrollArea_1->setGeometry(table[0][0]->geometry());
          ui->scrollArea_1->setWidget(table[0][0]);
@@ -225,17 +225,25 @@ void MainWindow::Initialize_Sim()
          ui->PlotRegion->hits=myhits[0].hitR[0]*100.0;
          ui->PlotRegion->update();
 
+         this->show();
+
 }
+
+//void MainWindow::Initialize_Sim()
+//{
+//
+//
+//}
 
 MainWindow::~MainWindow()
 {
     delete mygraph;
-    for(int i=0 ; i<4 ; i++)
-        for(int j=0 ; j<4 ; j++)
-        {
-            delete widget[i][j];
-            delete table[i][j];
-        }
+//    for(int i=0 ; i<4 ; i++)
+//        for(int j=0 ; j<4 ; j++)
+//        {
+//            delete widget[i][j];
+//            delete table[i][j];
+//        }
 }
 
 
@@ -254,6 +262,57 @@ QString MainWindow::hexadecimal(int m)
     return qstr;
 }
 
+
+void MainWindow::on_tabWidget_currentChanged(int i)
+{
+    int j=0;
+    switch(i)
+    {
+    case 0:
+        if(ui->tab1_1->isVisible())
+            j=0;
+        else if(ui->tab1_2->isVisible())
+            j=1;
+        else if(ui->tab1_3->isVisible())
+            j=2;
+        else if(ui->tab1_4->isVisible())
+            j=3;
+        on_tabWidget1_currentChanged(j);
+        break;
+    case 1:
+        if(ui->tab2_1->isVisible())
+            j=0;
+        else if(ui->tab2_2->isVisible())
+            j=1;
+        else if(ui->tab2_3->isVisible())
+            j=2;
+        else if(ui->tab2_4->isVisible())
+            j=3;
+        on_tabWidget2_currentChanged(j);
+        break;
+    case 2:
+        if(ui->tab3_1->isVisible())
+            j=0;
+        else if(ui->tab3_2->isVisible())
+            j=1;
+        else if(ui->tab3_3->isVisible())
+            j=2;
+        else if(ui->tab3_4->isVisible())
+            j=3;
+        on_tabWidget3_currentChanged(j);
+        break;
+    case 3:
+        if(ui->tab4_1->isVisible())
+            j=0;
+        else if(ui->tab4_2->isVisible())
+            j=1;
+        else if(ui->tab4_3->isVisible())
+            j=2;
+        else if(ui->tab4_4->isVisible())
+            j=3;
+        on_tabWidget4_currentChanged(j);
+    }
+}
 
 void MainWindow::on_tabWidget1_currentChanged(int j)
 {
@@ -313,13 +372,14 @@ void MainWindow::on_tabWidget4_currentChanged(int j)
     ui->label_12->setText(displayType[j]);
     ui->PlotRegion->hits=myhits[3].hitR[j]*100.0;
     ui->PlotRegion->update();
+
 }
 
-void MainWindow::DoWork()
-{
-    this->Initialize_Sim();
-    this->show();
-}
+//void MainWindow::DoWork()
+//{
+//    this->Initialize_Sim();
+//    this->show();
+//}
 
 void MainWindow::on_pushButton_clicked()
 {

@@ -15,10 +15,13 @@ class Processing_Window : public QDialog
 public:
     explicit Processing_Window(QWidget *parent = 0);
     ~Processing_Window();
-
+    void ApplyTextChange();
 private:
     Ui::Processing_Window *ui;
     QMovie* movie;
+
+public slots:
+
 };
 
 #endif // PROCESSING_WINDOW_H
