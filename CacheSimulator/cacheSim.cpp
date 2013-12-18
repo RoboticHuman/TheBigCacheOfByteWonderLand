@@ -11,7 +11,7 @@ int nextlocation = -1;
 
 cacheSim::cacheSim(int cachelineSize, int cacheSize, int memorySize, bool isFullyAssociative, int repmethod)
 {
-	srand(time(0));
+    srand(time(0)+cachelineSize);
     stringstream tempstr;
     tempstr<<"data"<<cachelineSize<<".dtt";
     out.open((tempstr.str()).c_str());

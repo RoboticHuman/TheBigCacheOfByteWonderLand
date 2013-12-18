@@ -19,8 +19,13 @@ Graphing::Graphing(QVector<double> x[], QVector<double> y[] , QWidget *parent) :
     ui(new Ui::Graphing)
 {
     ui->setupUi(this);
-    Qt::GlobalColor theColor[5] = { Qt::blue , Qt::red , Qt::green , Qt::black , Qt::cyan};
-
+    int theRed[5]   = { 0,128,255,0,0};
+    int theGreen[5] = { 162,128,128,0,0};
+    int theBlue[5]  = { 232,128,0,128,0};
+    // (0,162,232)
+    // (128,128,128)
+    // (255,128,0)
+    // (0,0,128)
     //*****************************************************************\\
     ui->customPlot->xAxis->setLabel("cache line size");
     ui->customPlot->yAxis->setLabel("hit ratio");
@@ -32,7 +37,7 @@ Graphing::Graphing(QVector<double> x[], QVector<double> y[] , QWidget *parent) :
     {
         ui->customPlot->addGraph();
         ui->customPlot->graph(i)->setData(x[i], y[i]);
-        ui->customPlot->graph(i)->setPen(QPen(theColor[i]));
+        ui->customPlot->graph(i)->setPen(QPen(QColor(theRed[i],theGreen[i],theBlue[i],255)));
         ui->customPlot->replot();
     }
     //*****************************************************************\\
@@ -70,7 +75,8 @@ Graphing::Graphing(QVector<double> x[], QVector<double> y[] , QWidget *parent) :
         ui->customPlot_2->addPlottable(myBars[i]);
         myBars[i]->setWidth(2);
         myBars[i]->setData(x[i],y[i]);
-        myBars[i]->setBrush(theColor[i]);
+        myBars[i]->setPen(QPen(QColor(theRed[i],theGreen[i],theBlue[i],255)));
+        myBars[i]->setBrush(QColor(theRed[i],theGreen[i],theBlue[i],255));
 
         //ui->customPlot_2->graph(i)->setData(x[i], y[i]);
         //ui->customPlot_2->graph(i)->setPen(QPen(theColor[i]));
@@ -88,32 +94,36 @@ Graphing::~Graphing()
 void Graphing::on_pushButton_clicked()
 {
     QString fileNames = QFileDialog::getSaveFileName(this, tr("Save File"),"/path/to/file/",tr("JPEG Files (*.jpg)"));
-    //getOpenFileNames(this, tr("Open File"),"/path/to/file/",tr("PDF Files (*.jpg)"));
-    ui->customPlot->saveJpg(fileNames);
+    if(ui->tab->isVisible())
+        ui->customPlot->saveJpg(fileNames);
+    else
+        ui->customPlot_2->saveJpg(fileNames);
 }
 
 void Graphing::on_pushButton_2_clicked()
 {
     QString fileNames = QFileDialog::getSaveFileName(this, tr("Save File"),"/path/to/file/",tr("PDF Files (*.pdf)"));
     //getOpenFileNames(this, tr("Open File"),"/path/to/file/",tr("PDF Files (*.pdf)"));
-    ui->customPlot->savePdf(fileNames);
+    if(ui->tab->isVisible())
+        ui->customPlot->savePdf(fileNames);
+    else
+        ui->customPlot_2->savePdf(fileNames);
 }
 
 void Graphing::on_pushButton_3_clicked()
 {
-    QString fileNames = QFileDialog::getSaveFileName(this, tr("Save File"),"/path/to/file/",tr("PDF Files (*.pdf)"));
-    //getOpenFileNames(this, tr("Open File"),"/path/to/file/",tr("PNG Files (*.png)"));
-    ui->customPlot->savePng(fileNames);
+    QString fileNames = QFileDialog::getSaveFileName(this, tr("Save File"),"/path/to/file/",tr("PNG Files (*.png)"));
+    if(ui->tab->isVisible())
+        ui->customPlot->savePng(fileNames);
+    else
+        ui->customPlot_2->savePng(fileNames);
 }
 
 void Graphing::on_pushButton_4_clicked()
 {
-    QString fileNames = QFileDialog::getSaveFileName(this, tr("Save File"),"/path/to/file/",tr("PDF Files (*.pdf)"));
-    //getOpenFileNames(this, tr("Open File"),"/path/to/file/",tr("BMP Files (*.bmp)"));
-    ui->customPlot->saveBmp(fileNames);
-}
-
-void Graphing::on_pushButton_5_clicked()
-{
-    ui->pushButton_5->show();
+    QString fileNames = QFileDialog::getSaveFileName(this, tr("Save File"),"/path/to/file/",tr("BMP Files (*.bmp)"));
+    if(ui->tab->isVisible())
+        ui->customPlot->saveBmp(fileNames);
+    else
+        ui->customPlot_2->saveBmp(fileNames);
 }
