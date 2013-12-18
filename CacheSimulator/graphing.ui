@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>734</width>
-    <height>488</height>
+    <height>499</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -339,12 +339,30 @@ font: 8pt &quot;Verdana&quot;;</string>
     <string>Export as:</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>480</y>
+     <width>561</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 85, 127);
+font: 8pt &quot;Verdana&quot;;</string>
+   </property>
+   <property name="text">
+    <string>* Generated PDF files can be imported and edited by vector editors like Inkscape and Illustrator</string>
+   </property>
+  </widget>
   <zorder>frame_2</zorder>
   <zorder>frame</zorder>
   <zorder>label</zorder>
   <zorder>tabWidget</zorder>
   <zorder>label_11</zorder>
   <zorder>label_10</zorder>
+  <zorder>label_12</zorder>
  </widget>
  <customwidgets>
   <customwidget>

@@ -123,11 +123,6 @@ condition cacheSim::cacheSimFA(unsigned int addr)
 {
     static int cntr = -1;
     cntr++;
-    nextlocation++;
-    if (nextlocation == numberOfCachelines)
-        bFull = true;
-    if (bFull)
-        nextlocation = replace();
     unsigned int tag, offset;
     int bitsTotal = log2(memorySize);
     int bitsOffset = log2(cachelineSize);
@@ -146,13 +141,16 @@ condition cacheSim::cacheSimFA(unsigned int addr)
     */
     if (arrayIndex.count(tag))
     {
-        if(cache[arrayIndex[tag]]->tag==tag)
-        {
-            cache[arrayIndex[tag]]->counter++;
-            nextlocation--;
-            return HIT;
-        }
+        cache[arrayIndex[tag]]->counter++;
+        return HIT;
     }
+    nextlocation++;
+    if (nextlocation == numberOfCachelines)
+        bFull = true;
+    if (bFull)
+        nextlocation = replace();
+    if(arrayIndex.count(cache[nextlocation]->tag))
+        arrayIndex.erase(cache[nextlocation]->tag);
     arrayIndex[tag] = nextlocation;
     cache[nextlocation]->valid = 1;
     cache[nextlocation]->tag = tag;
