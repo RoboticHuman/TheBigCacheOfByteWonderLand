@@ -48,3 +48,5 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     images.qrc
+
+win32:RC_FILE += CacheSimulator.rc
