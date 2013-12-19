@@ -21,7 +21,7 @@ using namespace std;
 //\\	
 //\\~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //\\	1 - Install the font attached(for a better experience)
-//\\	2 - If you want to try it run the file CacheSimulator.exe
+//\\	2 - To try it you may download the compressed setup file or download the excutable folder and run the file: CacheSimulator.exe
 //\\	3 - For the source code you'll find 42 attached files that include the simulator and the graphical user interface code.
 //\\
 //\\
@@ -39,8 +39,8 @@ using namespace std;
 //\\	This program has been made for the course CSCE 231 under the supervision of Dr.Mohamed Shalan
 //\\
 //\\	Ibrahim ElSebaie - 900120478
-//\\	Omar ElBehady - 900121388
-//\\	Hassan ElTahan - 900101697
+//\\	Omar ElBehady    - 900121388
+//\\	Hassan ElTahan   - 900101697
 //\\
 //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
 
